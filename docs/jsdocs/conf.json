@@ -16,6 +16,7 @@
         "monospaceLinks": false
     },
     "opts":{
-        "recurse": true
+        "recurse": true,
+        "readme":"../../README.md"
     }
 }

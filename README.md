@@ -1,20 +1,23 @@
 # Cellulite - The General-Purpose Cellular Automaton Library
-Cellulite is intended to be a library providing generalized cellular automaton functionality for a variety of purposes on either the servier or client side.
+Cellulite is intended to be a library providing generalized cellular automaton functionality 
+for a variety of purposes.  In particular, it's meant to work with non-numeric cell values, 
+and offers an Automaton class that can be extended to more restricted types of automata 
+(e.g. lifelike automata or elmentary automata).
 
-Libraries for simulating cellular automata already exist, in NPM and elswehere, but my hope is that this one will provide more widely applicable functionality (including non-numeric values and tools for interaction via a canvas) that other libraries do not provide.
+## API and Other Documentation
+Currently, the only documentation available is the JSDoc documentation located in
+the `docs` folder.
 
 ## Current Features
-Nothing.  I haven't started writing yet.
+Automaton class allows basic functionality of initializing and running an automaton.
 
-## Planned Features
-- Lifelike cellular automata
-- Elementary cellular automata
-- Generalized support for real-valued 2d automata
-- Generalized support for other (i.e. object-valued) 2d automata
-- Tools for rendering as images or via the canvas
-- Tools allowing interaction via key & mouse clicks in the browser
-- Intuitive command line tools for development on the server side.
-- Example code showing more varied applications than typical.
+## Possible Future Work
+- Implement subclasses for lifelike automata and elementary cellular automata
+- Tutorials and examples of interesting uses
+- Use Browserify to make library browser-friendly
+- Tools for rendering as images or via HTML5 canvas
+- Functionality facilitating increased interactivity (e.g. mouse clicks when in the browser)
+- Command line tools for development and experimentation
 
-## Copyright Info
+## License
 I'll probably release this under the LGPL at some point, but for now consider it copyrighted.

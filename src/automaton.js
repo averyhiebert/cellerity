@@ -1,25 +1,79 @@
 "use strict";
 
+// Typedefs for the auto-generated docs (Also useful for developers!) =========
+/** @lends module:cellulite */
+
 /**
+ * A function that determines the state of a cell based on the state of its
+ * neighbours, and (optionally) on the coordinates of the cell.
+ *
+ * The intended use case of the coordinate params is to allow for more
+ * complicated artwork or simulations that are not purely determined by initial
+ * conditions.  If you don't want to do this, just ignore 'em.
+ *
+ * @callback updateFunction
+ * @param neighbourhood The neighbourhood of the cell, expressed as a 1D
+ *   array.  The cells' values are read by rows, 
+ *   so [[1,2,3],[4,5,6],[7,8,9]] is expressed as [1,2,3,4,5,6,7,8,9].
+ *   Note that the centre cell, the cell whose value is to be determined,
+ *   is equal to neighbourhood[4].
+ *   Note also that the elements don't necessarily need to be of type number.
+ * @param {number} row The row of the cell whose state is to be determined.
+ * @param {number} col The column of the cell whose state is to be determined.
+ * @return The new value for the cell in question.  This probably should have the same
+ *   type as the contents of neighbourhood.
+ */
+
+ /** A function that initializes a cell on the grid based on its row and column value.
+  * This could be used for a typical random initialization, or something more exotic
+  * (e.g. stripes or a checkerboard pattern), or could easily be used to initialize the
+  * contents of the automaton so that they match a predefined array of the correct
+  * dimensions.
+  *
+  * @callback initializerFunction
+  * @param {number} row The row of the cell to be initialized.
+  * @param {number} col The column of the cell to be initialized.
+  * @return The intended initial value for the cell.  Note that this does not need
+  *   to be a number!
+  */
+
+/** A ruleset for a cellular automaton.  If a single updateFunction is given, that
+ * function will be applied as a rule.
+ * If a list of updateFunctions are given, the overall rule will be the composition
+ * of functions, with the first function in the list being applied first, and so on.
+ *
+ * @typedef {updateFunction | updateFunction[]} ruleset
+ */
+
+/**
+ * An object representing a set of options for a cellular automaton.
  * @typedef {Object} automatonOptions
- * @property {function | function[]} rule The rule governing the automaton's evolution
  * @property {number} [rows=20] The number of rows to use
  * @property {number} [cols=20] The number of columns to use
- * @property {function} [initializer] The function to use to initialize cells
+ * @property {initializerFunction} [initializer] The function to use to initialize cells
  *   (defaults to setting all cells to 0)
- * @property {string} [edgeMode="wrap"] The edge mode to use, either "wrap" or "freeze"
+ * @property {string} [edgeMode="wrap"] The edge mode to use, 
+ *   either "wrap" or "freeze"
  */
+
+
+// Start of actual code =======================================================
 
 /**
  * Class representing a cellular automaton.
  */
 class Automaton{
     /** Create an automaton instance.
-     * 
-     * @param options {automatonOptions} The options to use when 
+     *
+     * @param ruleset {function|function[]} The rule 
+     *   that guides the automaton's evolution
+     * @param [options] {automatonOptions} Other options to use when 
      *   creating the automaton
      */
-    constructor(options){
+    constructor(ruleset,options){
+        /** @private */
+        this.ruleset = ruleset;
+
         /** @private */
         this.rows = options.rows || 20;
         /** @private */
@@ -30,8 +84,6 @@ class Automaton{
 
         /** @private */
         this.initializer = options.initializer || (x => 0); 
-        /** @private */
-        this.rule = options.rule;
         /** @private */
         this.edgeMode = options.edgeMode || "wrap";
 
@@ -52,10 +104,10 @@ class Automaton{
      * function passed in.  This should not be used externally, only
      * used by the public step function.
      *
-     * @param {function} ruleFunc The function to apply.
+     * @param {updateFunction} update The function to apply.
      * @private
      */
-    apply(ruleFunc){
+    apply(update){
         var newArray = get2DArray(this.rows,this.cols);
 
         for (var i = 0; i < this.rows; i++){
@@ -79,7 +131,7 @@ class Automaton{
                         neighbourhood[m*3 + n] = this.data[row][col];
                     }
                 }
-                newArray[i][j] = ruleFunc(neighbourhood);
+                newArray[i][j] = update(neighbourhood);
             }// for each cell in row
         }// for each row
 
@@ -90,11 +142,19 @@ class Automaton{
     /** Perform one "step" of evolution according to the automaton's rule.
      */
     step(){
-        this.apply(this.rule);
-    }
+        if((typeof this.ruleset) == "function"){
+            this.apply(this.ruleset);
+        }else{
+            //Compose functions, in order.
+            this.ruleset.forEach(function(updateFunction){
+                this.apply(updateFunction)
+            });
+        }
+    }//step
 
     /** Get a human-friendly string representation of the current
-     *   state of the automaton.
+     * state of the automaton.
+     *
      * @param {function} [map] A function to apply to each cell value, 
      *   returning the string to be used to represent the cell.
      * @return {string} The string representation of the current state of
@@ -118,6 +178,7 @@ class Automaton{
 
 /** Get a 2D array of zeros.
  *
+ * @private
  * @param cols {number} The number of columns desired
  * @param rows {number} The number of rows desired
  * @return A 2D array of zeros

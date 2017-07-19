@@ -96,37 +96,42 @@
     
 
     
-        <h3 class="subsection-title">Methods</h3>
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
 
         
-            
+                
+<h4 class="name" id="automatonOptions">automatonOptions</h4>
 
-    
-
-    
-    <h4 class="name" id="get2DArray"><span class="type-signature"></span>get2DArray<span class="signature">(cols, rows)</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
 
 <div class="description">
-    Get a 2D array of zeros.
+    An object representing a set of options for a cellular automaton.
 </div>
 
 
 
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
 
 
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
 
-    <h5>Parameters:</h5>
     
 
-<table class="params">
+<table class="props">
     <thead>
     <tr>
         
@@ -136,7 +141,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -144,29 +153,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>cols</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The number of columns desired</td>
-        </tr>
-
     
 
         <tr>
@@ -184,17 +170,140 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+                </td>
             
 
-            <td class="description last">The number of rows desired</td>
+            
+                <td class="default">
+                
+                    20
+                
+                </td>
+            
+
+            <td class="description last">The number of rows to use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cols</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    20
+                
+                </td>
+            
+
+            <td class="description last">The number of columns to use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initializer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#initializerFunction">initializerFunction</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The function to use to initialize cells
+  (defaults to setting all cells to 0)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>edgeMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "wrap"
+                
+                </td>
+            
+
+            <td class="description last">The edge mode to use, 
+  either "wrap" or "freeze"</td>
         </tr>
 
     
     </tbody>
 </table>
-
-
 
 
 
@@ -244,6 +353,156 @@
 
 
 
+            
+                
+
+    
+
+    
+    <h4 class="name" id="initializerFunction"><span class="type-signature"></span>initializerFunction<span class="signature">(row, col)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A function that initializes a cell on the grid based on its row and column value.
+This could be used for a typical random initialization, or something more exotic
+(e.g. stripes or a checkerboard pattern), or could easily be used to initialize the
+contents of the automaton so that they match a predefined array of the correct
+dimensions.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>row</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The row of the cell to be initialized.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The column of the cell to be initialized.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
 
 
 
@@ -255,7 +514,8 @@
 
         
 <div class="param-desc">
-    A 2D array of zeros
+    The intended initial value for the cell.  Note that this does not need
+  to be a number!
 </div>
 
 
@@ -266,9 +526,282 @@
 
 
 
-        
+            
+                
+<h4 class="name" id="ruleset">ruleset</h4>
+
+
+
+
+<div class="description">
+    A ruleset for a cellular automaton.  If a single updateFunction is given, that
+function will be applied as a rule.
+If a list of updateFunctions are given, the overall rule will be the composition
+of functions, with the first function in the list being applied first, and so on.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="global.html#updateFunction">updateFunction</a></span>
+|
+
+<span class="param-type">Array.&lt;<a href="global.html#updateFunction">updateFunction</a>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
     
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="updateFunction"><span class="type-signature"></span>updateFunction<span class="signature">(neighbourhood, row, col)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    A function that determines the state of a cell based on the state of its
+neighbours, and (optionally) on the coordinates of the cell.
+
+The intended use case of the coordinate params is to allow for more
+complicated artwork or simulations that are not purely determined by initial
+conditions.  If you don't want to do this, just ignore 'em.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>neighbourhood</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The neighbourhood of the cell, expressed as a 1D
+  array.  The cells' values are read by rows, 
+  so [[1,2,3],[4,5,6],[7,8,9]] is expressed as [1,2,3,4,5,6,7,8,9].
+  Note that the centre cell, the cell whose value is to be determined,
+  is equal to neighbourhood[4].
+  Note also that the elements don't necessarily need to be of type number.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>row</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The row of the cell whose state is to be determined.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The column of the cell whose state is to be determined.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The new value for the cell in question.  This probably should have the same
+  type as the contents of neighbourhood.
+</div>
+
+
+
+    
+
+
+
+
+
+            
     
 
     
@@ -282,13 +815,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Automaton.html">Automaton</a></li></ul><h3>Global</h3><ul><li><a href="global.html#get2DArray">get2DArray</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-cellulite.html">cellulite</a></li></ul><h3>Classes</h3><ul><li><a href="Automaton.html">Automaton</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Tue Jul 18 2017 20:39:22 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Wed Jul 19 2017 01:33:51 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>

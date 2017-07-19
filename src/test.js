@@ -25,11 +25,11 @@ function lifeRule(n){
 }//lifeRule
 
 //Create a basic automaton and view it
-var aut = new cellulite.Automaton({
+
+var aut = new cellulite.Automaton(lifeRule,{
     rows:40,
     cols:40,
     initializer:rand,
-    rule:lifeRule
 });
 
 function printSteps(){
