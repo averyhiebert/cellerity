@@ -32,12 +32,12 @@ var aut = new cellulite.Automaton({
     rule:lifeRule
 });
 
-function printStep(){
+function printSteps(){
     aut.step();
     console.log(aut.prettyPrint(checkers));
-    setTimeout(printStep,200);
+    setTimeout(printSteps,200);
 }
 
-printStep();
+printSteps();
 
 
