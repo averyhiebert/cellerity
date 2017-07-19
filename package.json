@@ -1,6 +1,6 @@
 {
   "name": "cellulite",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A library of general-purpose cellular automaton functionality",
   "main": "src/main.js",
   "scripts": {
@@ -8,5 +8,8 @@
     "start": "echo \"Error: no start script specified\" && exit 1"
   },
   "author": "Avery Hiebert",
-  "license": "Not licensed for public use (yet)"
+  "license": "Not licensed for public use (yet)",
+  "devDependencies": {
+    "jsdoc": "^3.5.3"
+  }
 }
