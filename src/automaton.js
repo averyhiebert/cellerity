@@ -52,8 +52,8 @@
  * @property {number} [cols=20] The number of columns to use
  * @property {initializerFunction} [initializer] The function to use to initialize cells
  *   (defaults to setting all cells to 0)
- * @property {string} [edgeMode="wrap"] The edge mode to use, 
- *   either "wrap" or "freeze"
+ * @property {string} [edgeMode="toroid"] The edge mode to use, 
+ *   one of ("toroid", "freeze","cylinder")
  */
 
 
@@ -71,6 +71,7 @@ class Automaton{
      *   creating the automaton
      */
     constructor(ruleset,options){
+        options = options || {};
         /** @private */
         this.ruleset = ruleset;
 
@@ -118,7 +119,12 @@ class Automaton{
                         || j == 0 || j == this.cols - 1){
                         continue;
                     }
-                }// if in freeze mode
+                }else if(this.edgeMode == "cylinder"){
+                    //Don't update top or bottom edges, but wrap sides.
+                    if(i == 0 || i == this.rows - 1){
+                        continue;
+                    }
+                }// Possible skip update based on edge rules
 
                 //Update according to rule function.
                 // Pass neighbourhood as linear array, read by rows.

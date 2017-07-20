@@ -1,4 +1,4 @@
-# Cellulite - The General-Purpose Cellular Automaton Library
+# Cellulite - General Purpose Cellular Automata
 Cellulite is intended to be a library providing generalized cellular automaton functionality 
 for a variety of purposes.  In particular, it's meant to work with non-numeric cell values, 
 and offers an Automaton class that can be extended to more restricted types of automata 
