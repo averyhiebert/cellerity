@@ -29,7 +29,6 @@
             <pre class="prettyprint source linenums"><code>"use strict";
 
 // Typedefs for the auto-generated docs (Also useful for developers!) =========
-/** @lends module:cellulite */
 
 /**
  * A function that determines the state of a cell based on the state of its
@@ -52,18 +51,17 @@
  *   type as the contents of neighbourhood.
  */
 
- /** A function that initializes a cell on the grid based on its row and column value.
-  * This could be used for a typical random initialization, or something more exotic
-  * (e.g. stripes or a checkerboard pattern), or could easily be used to initialize the
-  * contents of the automaton so that they match a predefined array of the correct
-  * dimensions.
-  *
-  * @callback initializerFunction
-  * @param {number} row The row of the cell to be initialized.
-  * @param {number} col The column of the cell to be initialized.
-  * @return The intended initial value for the cell.  Note that this does not need
-  *   to be a number!
-  */
+/** A function that initializes a cell on the grid based on 
+ * its row and column value.
+ * This could be used for a typical random initialization, or something more exotic
+ * (e.g. stripes or a checkerboard pattern).
+ *
+ * @callback initializerFunction
+ * @param {number} row The row of the cell to be initialized.
+ * @param {number} col The column of the cell to be initialized.
+ * @return The intended initial value for the cell.  Note that this does not need
+ *   to be a number!
+ */
 
 /** A ruleset for a cellular automaton.  If a single updateFunction is given, that
  * function will be applied as a rule.
@@ -76,12 +74,15 @@
 /**
  * An object representing a set of options for a cellular automaton.
  * @typedef {Object} automatonOptions
+ * @property {Array} [startData] A 2D array (type is up to you) to use 
+ *   as the initial conditions for the automaton.  If this option is 
+ *   present, it will override initializer, rows, and cols.
  * @property {number} [rows=20] The number of rows to use
  * @property {number} [cols=20] The number of columns to use
- * @property {initializerFunction} [initializer] The function to use to initialize cells
- *   (defaults to setting all cells to 0)
- * @property {string} [edgeMode="wrap"] The edge mode to use, 
- *   either "wrap" or "freeze"
+ * @property {initializerFunction} [initializer] The function to use 
+ *   to initialize cells (defaults to setting all cells to 0)
+ * @property {string} [edgeMode="toroid"] The edge mode to use, 
+ *   one of ("toroid", "freeze", "cylinder")
  */
 
 
@@ -89,6 +90,7 @@
 
 /**
  * Class representing a cellular automaton.
+ * @memberof module:cellulite
  */
 class Automaton{
     /** Create an automaton instance.
@@ -99,6 +101,7 @@ class Automaton{
      *   creating the automaton
      */
     constructor(ruleset,options){
+        options = options || {};
         /** @private */
         this.ruleset = ruleset;
 
@@ -106,20 +109,29 @@ class Automaton{
         this.rows = options.rows || 20;
         /** @private */
         this.cols = options.cols || 20;
-
         /** The main data array */
         this.data = get2DArray(this.rows,this.cols);
-
         /** @private */
         this.initializer = options.initializer || (x => 0); 
+
+        //Override preceding four conditions if necessary
+        if(options.startData){
+            var d = options.startData;
+            this.rows = d.length;
+            this.cols = d[0].length;
+            this.initializer = Automaton.constantInitializer(d);
+            this.data = get2DArray(this.rows,this.cols);
+        }
+
         /** @private */
         this.edgeMode = options.edgeMode || "wrap";
 
-        this.initialize();
+        //Set the grid to initial conditions
+        this.reset();
     }//constructor
 
-    /** (Re)set the automaton's data to initial conditions */
-    initialize(){
+    /** Set the automaton's data to initial conditions */
+    reset(){
         //Call the initializer on each item of data
         for (var row = 0; row &lt; this.data.length; row ++){
             for (var col = 0; col &lt; this.data[row].length; col ++){
@@ -146,7 +158,12 @@ class Automaton{
                         || j == 0 || j == this.cols - 1){
                         continue;
                     }
-                }// if in freeze mode
+                }else if(this.edgeMode == "cylinder"){
+                    //Don't update top or bottom edges, but wrap sides.
+                    if(i == 0 || i == this.rows - 1){
+                        continue;
+                    }
+                }// Possible skip update based on edge rules
 
                 //Update according to rule function.
                 // Pass neighbourhood as linear array, read by rows.
@@ -167,16 +184,24 @@ class Automaton{
         this.data = newArray;
     }//apply
 
-    /** Perform one "step" of evolution according to the automaton's rule.
+    /** Perform one or more iterations of evolution according to 
+     * the automaton's rule.
+     *
+     * @param {number} [n=1] The number of iterations to perform
      */
-    step(){
+    step(n){
+        n = n || 1;
         if((typeof this.ruleset) == "function"){
-            this.apply(this.ruleset);
+            for(var i = 0; i &lt; n; i++){
+                this.apply(this.ruleset);
+            }
         }else{
             //Compose functions, in order.
-            this.ruleset.forEach(function(updateFunction){
-                this.apply(updateFunction)
-            });
+            for(var i = 0; i &lt; n; i++){
+                this.ruleset.forEach(function(updateFunction){
+                    this.apply(updateFunction)
+                });
+            }
         }
     }//step
 
@@ -202,6 +227,20 @@ class Automaton{
         });// for each row
         return result;
     }//prettyPrint
+
+    /** Return an initializer that initializes the array to match
+     * a specified constant array.
+     * @private
+     * @param array The array to initialize to.  Should have at least
+     *   the dimensions of the automaton.
+     * @return {initializerFunction} An initializer function to use
+     *   in the creation of an automaton.
+     */
+    static constantInitializer(arr){
+        return function(row,col){
+            return arr[row][col];
+        }
+    }
 }//Automaton
 
 /** Get a 2D array of zeros.
@@ -230,13 +269,13 @@ module.exports = Automaton;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-cellulite.html">cellulite</a></li></ul><h3>Classes</h3><ul><li><a href="Automaton.html">Automaton</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-cellulite.html">cellulite</a></li></ul><h3>Classes</h3><ul><li><a href="module-cellulite.Automaton.html">Automaton</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Wed Jul 19 2017 01:33:51 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Wed Jul 19 2017 23:12:23 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>
