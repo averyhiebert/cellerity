@@ -4,12 +4,13 @@
   "description": "A library of general-purpose cellular automaton functionality",
   "main": "src/main.js",
   "scripts": {
-    "test": "mocha",
+    "test": "istanbul cover _mocha -- -R spec",
     "start": "echo \"Error: no start script specified\" && exit 1"
   },
   "author": "Avery Hiebert",
   "license": "Not licensed for public use (yet)",
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "jsdoc": "^3.5.3",
     "mocha": "^3.4.2"
   }

@@ -91,6 +91,28 @@ describe("Automaton", function(){
             assert.deepEqual(aut.data,glider2);
         });// More complex rule
 
+        it("should support composition of rules",function(){
+            var glider = [[0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,0,1,1,0],
+                          [0,0,0,0,1,0,1],
+                          [0,0,0,0,1,0,0]];
+            var glider2 = [[0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,1,1,0,0],
+                          [0,0,0,1,0,1,0],
+                          [0,0,0,1,0,0,0],
+                          [0,0,0,0,0,0,0]];
+            var aut = new Automaton([lifeUpdateRule,lifeUpdateRule],{
+                startData:glider
+            });
+            aut.step(2); //2 steps of rule composed with self = 4 normal steps
+            assert.deepEqual(aut.data,glider2);
+        });// composition of rules
+
         it("should use the 'toroid' edge mode by default",function(){
             var grid = [[1,0,1],
                         [0,0,0],

@@ -172,8 +172,9 @@ class Automaton{
         }else{
             //Compose functions, in order.
             for(var i = 0; i < n; i++){
+                var that = this;
                 this.ruleset.forEach(function(updateFunction){
-                    this.apply(updateFunction)
+                    that.apply(updateFunction)
                 });
             }
         }
