@@ -156,6 +156,14 @@ describe("Automaton", function(){
             aut.step();
             assert.deepEqual(aut.data,grid2);
         });// 'cylinder' setting
+
+        it("should be fairly fast (machine-dependent, I guess)", function(){
+            var aut = new Automaton(lifeUpdateRule,{
+                rows:100,
+                cols:100
+            });
+            aut.step();
+        });// simple speed test
     });// describe step
 
     describe("#reset()",function(){
