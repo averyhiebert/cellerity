@@ -6,9 +6,9 @@ var Automaton = require("../src/main.js").Automaton;
 describe("Automaton", function(){
     // Rule to use for testing (Conway's Game of Life)
     function lifeUpdateRule(n){
-        //Note: n = neighbourhood, read by rows, as a linear array
+        //Note: n = neighbourhood, as a 2D array
+        // (i.e. the cell being updated is n[1][1]
         //Assumes cells are either 1 or 0
-        //var sum = n.reduce((x,y) => x + y,0);
         var sum = 0;
         for(var i = 0; i < 3; i++){
             for(var j = 0; j < 3; j++){

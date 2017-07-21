@@ -4,21 +4,25 @@
 
 /**
  * A function that determines the state of a cell based on the state of its
- * neighbours, and (optionally) on the coordinates of the cell.
+ * neighbours.  The Moore neighbourhood (8 surrounding squares) is used, but
+ * obviously you could ignore some cells if you only care about the Von Neumann
+ * neighbourhood.  Neighbourhoods of a greater radius are not currently supported.
+ * 
+ * IMPORTANT NOTE: If the contents of the cells in your automaton are objects or
+ * arrays, you should try not to modify them in your function, as they will also
+ * be modified in the array currently being used to create the new generation. This
+ * is done due to performance constraints.
  *
- * The intended use case of the coordinate params is to allow for more
- * complicated artwork or simulations that are not purely determined by initial
- * conditions.  If you don't want to do this, just ignore 'em.
+ * If you don't modify the state of any objects, and always return an either
+ * unchanged or brand new object from this update function, you should be fine.
+ * Anything else could result in unpredictable behaviour.
  *
  * @callback updateFunction
- * @param neighbourhood The neighbourhood of the cell, expressed as a 1D
- *   array.  The cells' values are read by rows, 
- *   so [[1,2,3],[4,5,6],[7,8,9]] is expressed as [1,2,3,4,5,6,7,8,9].
+ * @param neighbourhood The neighbourhood of the cell, expressed as a 3x3 array.
  *   Note that the centre cell, the cell whose value is to be determined,
- *   is equal to neighbourhood[4].
- *   Note also that the elements don't necessarily need to be of type number.
- * @param {number} row The row of the cell whose state is to be determined.
- * @param {number} col The column of the cell whose state is to be determined.
+ *   is equal to neighbourhood[1][1].
+ *   Elements can be of any type, but if using objects or arrays do not modify
+ *   their state.
  * @return The new value for the cell in question.  This probably should have the same
  *   type as the contents of neighbourhood.
  */
@@ -81,7 +85,12 @@ class Automaton{
         this.rows = options.rows || 20;
         /** @private */
         this.cols = options.cols || 20;
-        /** The main data array */
+        /** The main data array.   
+        *
+        * Note that the convention used here
+        * (and elsewhere in this package) is that data[row][col] corresponds
+        * to the row-th cell down and the col-th cell to the right, indexed
+        * from zero (as one would normally expect).*/
         this.data = get2DArray(this.rows,this.cols);
         /** @private */
         this.initializer = options.initializer || (x => 0); 
@@ -145,7 +154,7 @@ class Automaton{
             for (var j = 1; j < this.cols - 1; j++){
                 //Update according to rule function.
 
-                // (This is much faster than nested for loops, trust me)
+                // (This is faster than nested for loops)
                 this.data[i][j] = update([
                     oldArray[i-1].slice(j-1,j+2),
                     oldArray[i].slice(j-1,j+2),
@@ -224,7 +233,10 @@ class Automaton{
     }//step
 
     /** Get a human-friendly string representation of the current
-     * state of the automaton.
+     * state of the automaton.  Note that the convention used here
+     * (and elsewhere in this package) is that data[row][col] corresponds
+     * to the row-th cell down and the col-th cell to the right, indexed
+     * from zero (as one would normally expect).
      *
      * @param {function} [map] A function to apply to each cell value, 
      *   returning the string to be used to represent the cell.
