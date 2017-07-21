@@ -1,12 +1,14 @@
 # Cellulite (General Purpose Cellular Automata)
-Cellulite is intended to be a library providing generalized cellular automaton functionality 
-for a variety of purposes.  In particular, it's meant to work with non-numeric cell values, 
-and offers an Automaton class that can be extended to more restricted types of automata 
-(e.g. lifelike automata or elmentary automata).
+Cellulite is intended to be a library providing generalized cellular 
+automaton functionality for a variety of purposes.  In particular, it's 
+meant to work with non-numeric cell values, and offers an Automaton 
+class that can be extended to more restricted types of automata 
+(e.g. lifelike automata or elementary automata).
+
 
 ## API and Other Documentation
-Currently, the only documentation available is the JSDoc documentation located in
-the `docs` folder.
+Currently, the only documentation available is the JSDoc documentation 
+located in the `docs/jsdocs/out` directory.
 
 ## Current Features
 Automaton class allows basic functionality of initializing and running an automaton.

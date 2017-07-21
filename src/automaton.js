@@ -71,7 +71,7 @@
 class Automaton{
     /** Create an automaton instance.
      *
-     * @param ruleset {function|function[]} The rule 
+     * @param ruleset {ruleset} The rule 
      *   that guides the automaton's evolution
      * @param [options] {automatonOptions} Other options to use when 
      *   creating the automaton
