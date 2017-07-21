@@ -121,24 +121,28 @@ class Automaton{
      */
     apply(update){
         var newArray = get2DArray(this.rows,this.cols);
-
+        var newArray = []
         for (var i = 0; i < this.rows; i++){
-            for (var j = 0; j < this.cols; j++){
-                if(this.edgeMode == "freeze"){
-                    //don't update edge cells
-                    if(i == 0 || i == this.rows - 1 
-                        || j == 0 || j == this.cols - 1){
-                        newArray[i][j] = this.data[i][j];
-                        continue;
-                    }
-                }else if(this.edgeMode == "cylinder"){
-                    //Don't update top or bottom edges, but wrap sides.
-                    if(i == 0 || i == this.rows - 1){
-                        newArray[i][j] = this.data[i][j];
-                        continue;
-                    }
-                }
+            newArray[i] = this.data[i].slice();
+        }
 
+        //Decide what bounds to use, based on edge behaviour
+        var startRow = 0;
+        var endRow = this.rows - 1;
+        var startCol = 0;
+        var endCol = this.cols - 1;
+        switch(this.edgeMode){
+            case "freeze":
+                startCol = 1;
+                endCol = this.rows - 2;
+            case "cylinder":
+                startRow = 1;
+                endRow = this.cols - 2;
+                break;
+        }
+
+        for (var i = startRow; i <= endRow; i++){
+            for (var j = startCol; j <= endCol; j++){
                 //Update according to rule function.
                 // Pass neighbourhood as linear array, read by rows.
                 // (so current value of cell is neighbourhood[4] )
@@ -150,7 +154,8 @@ class Automaton{
                         neighbourhood[m*3 + n] = this.data[row][col];
                     }
                 }
-                newArray[i][j] = update(neighbourhood);
+                //newArray[i][j] = update(neighbourhood);
+                newArray[i][j] = this.ruleset(neighbourhood);
             }// for each cell in row
         }// for each row
 
