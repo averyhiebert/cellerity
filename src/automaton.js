@@ -154,8 +154,7 @@ class Automaton{
                         neighbourhood[m*3 + n] = this.data[row][col];
                     }
                 }
-                //newArray[i][j] = update(neighbourhood);
-                newArray[i][j] = this.ruleset(neighbourhood);
+                newArray[i][j] = update(neighbourhood);
             }// for each cell in row
         }// for each row
 
