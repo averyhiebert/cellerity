@@ -8,8 +8,15 @@ describe("Automaton", function(){
     function lifeUpdateRule(n){
         //Note: n = neighbourhood, read by rows, as a linear array
         //Assumes cells are either 1 or 0
-        var sum = n.reduce((x,y) => x + y,0);
-        if(n[4]){
+        //var sum = n.reduce((x,y) => x + y,0);
+        var sum = 0;
+        for(var i = 0; i < 3; i++){
+            for(var j = 0; j < 3; j++){
+                sum += n[i][j];
+            }
+        }
+
+        if(n[1][1]){
             var survive = (sum - 1) == 2 || (sum - 1) == 3;
             return (survive?1:0);
         }else{
@@ -59,7 +66,7 @@ describe("Automaton", function(){
 
     describe("#step()",function(){
         it("should support a simple update rule",function(){
-            var aut = new Automaton(n => n[4] + 1);
+            var aut = new Automaton(n => n[1][1] + 1);
             var initial = aut.data[1][1];
             aut.step();
             assert.equal(aut.data[1][1],initial + 1);
@@ -73,23 +80,23 @@ describe("Automaton", function(){
             var glider = [[0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
-                          [0,0,0,0,0,0,0],
-                          [0,0,0,0,1,1,0],
-                          [0,0,0,0,1,0,1],
-                          [0,0,0,0,1,0,0]];
+                          [0,0,1,1,0,0,0],
+                          [0,0,1,0,1,0,0],
+                          [0,0,1,0,0,0,0],
+                          [0,0,0,0,0,0,0]];
             var glider2 = [[0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
+                          [0,1,1,0,0,0,0],
+                          [0,1,0,1,0,0,0],
+                          [0,1,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
-                          [0,0,0,1,1,0,0],
-                          [0,0,0,1,0,1,0],
-                          [0,0,0,1,0,0,0],
                           [0,0,0,0,0,0,0]];
             var aut = new Automaton(lifeUpdateRule,{
                 startData:glider
             });
             aut.step(4);
             assert.deepEqual(aut.data,glider2);
-        });// More complex rule
+        });// Game of Life
 
         it("should support composition of rules",function(){
             var glider = [[0,0,0,0,0,0,0],
@@ -155,14 +162,16 @@ describe("Automaton", function(){
             });
             aut.step();
             assert.deepEqual(aut.data,grid2);
-        });// 'cylinder' setting
+        });// 'freeze' setting
 
-        it("should be fairly fast (machine-dependent, I guess)", function(){
+        it("should be moderately fast (slightly machine-dependent)", function(){
+            // Test times out in 2 seconds.
+            // If that happens, we're going slower than I'm happy with.
             var aut = new Automaton(lifeUpdateRule,{
                 rows:100,
                 cols:100
             });
-            aut.step();
+            aut.step(100);
         });// simple speed test
     });// describe step
 

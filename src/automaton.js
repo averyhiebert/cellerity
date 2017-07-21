@@ -120,10 +120,9 @@ class Automaton{
      * @private
      */
     apply(update){
-        var newArray = get2DArray(this.rows,this.cols);
-        var newArray = []
+        var oldArray = []
         for (var i = 0; i < this.rows; i++){
-            newArray[i] = this.data[i].slice();
+            oldArray[i] = this.data[i].slice();
         }
 
         //Decide what bounds to use, based on edge behaviour
@@ -140,27 +139,66 @@ class Automaton{
                 endRow = this.cols - 2;
                 break;
         }
-
-        for (var i = startRow; i <= endRow; i++){
-            for (var j = startCol; j <= endCol; j++){
+        
+        //Update main body of table:
+        for (var i = 1; i < this.rows - 1; i++){
+            for (var j = 1; j < this.cols - 1; j++){
                 //Update according to rule function.
-                // Pass neighbourhood as linear array, read by rows.
-                // (so current value of cell is neighbourhood[4] )
-                var neighbourhood = [0,0,0,0,0,0,0,0,0];
-                for(var m = 0; m < 3; m++){
-                    for(var n = 0; n < 3; n++){
-                        var row = (i + m - 1 + this.rows) % this.rows;
-                        var col = (j + n - 1 + this.cols) % this.cols;
-                        neighbourhood[m*3 + n] = this.data[row][col];
-                    }
-                }
-                //newArray[i][j] = update(neighbourhood);
-                newArray[i][j] = this.ruleset(neighbourhood);
+
+                // (This is much faster than nested for loops, trust me)
+                this.data[i][j] = update([
+                    oldArray[i-1].slice(j-1,j+2),
+                    oldArray[i].slice(j-1,j+2),
+                    oldArray[i+1].slice(j-1,j+2)
+                ]);
             }// for each cell in row
         }// for each row
 
-        //Overwrite the current state to match
-        this.data = newArray;
+        //Update left & right column (not including corners) if necessary
+        if (this.edgeMode != "freeze"){
+            for(var i = 1; i < this.rows - 1; i ++){
+                // This only runs O(n) times per step, not O(n^2) like above, 
+                // so I didn't bother with optimization.
+                var neighbourhood = [[0,0,0],[0,0,0],[0,0,0]];
+                var neighbourhood2 = [[0,0,0],[0,0,0],[0,0,0]]; //sometimes redundant
+                for(var m = 0; m < 3; m++){
+                    for(var n = 0; n < 3; n++){
+                        var row = (i + m - 1 + this.rows) % this.rows;
+                        var col = (n - 1 + this.cols) % this.cols;
+                        neighbourhood[m][n] = oldArray[row][col];
+                        
+                        //Update right column, too (rarely unnecessary)
+                        col = (this.cols + n - 2) % this.cols;
+                        neighbourhood2[m][n] = oldArray[row][col];
+                    }//inner for
+                }// done building neighbourhood
+                this.data[i][0] = update(neighbourhood);
+                //Second update will be redundant if there is only 1 column
+                this.data[i][this.cols - 1] = update(neighbourhood2);
+            }// for each row
+        }// left & right column
+
+        //Update top & bottom rows if in "toroid" mode
+        if (this.edgeMode == "toroid"){
+            for(var i = 0; i < this.cols; i ++){
+                var neighbourhood = [[0,0,0],[0,0,0],[0,0,0]];
+                var neighbourhood2 = [[0,0,0],[0,0,0],[0,0,0]];
+                for(var m = 0; m < 3; m++){
+                    for(var n = 0; n < 3; n++){
+                        var row = (m - 1 + this.rows) % this.rows;
+                        var col = (i + n - 1 + this.cols) % this.cols;
+                        neighbourhood[m][n] = oldArray[row][col];
+                        
+                        //Update bottom row, too (rarely unnecessary)
+                        row = (this.rows + m - 2) % this.cols;
+                        neighbourhood2[m][n] = oldArray[row][col];
+                    }//inner for
+                }// done building neighbourhood
+                this.data[0][i] = update(neighbourhood);
+                //Second update will be redundant if there is only one row
+                this.data[this.rows - 1][i] = update(neighbourhood2);
+            }// for each row
+        }// left & right column
     }//apply
 
     /** Perform one or more iterations of evolution according to 
