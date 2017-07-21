@@ -13,10 +13,14 @@ function checkers(cell){
 //Evaluate a step of the Game of Life
 // (n = neighbourhood as linear array, read by rows)
 function lifeRule(n){
-    var count = n.reduce(function(sum,value){
-        return sum + (value? 1 : 0)
-    },0);
-    if(n[4]){
+    var count = 0;
+    for(var i = 0; i < 3; i++){
+        for(var j = 0; j < 3; j++){
+            count += n[i][j];
+        }
+    }
+
+    if(n[1][1]){
         count = count - 1;
         return (count == 2 || count == 3);
     }else{
@@ -35,7 +39,7 @@ var aut = new cellulite.Automaton(lifeRule,{
 function printSteps(){
     aut.step();
     console.log(aut.prettyPrint(checkers));
-    setTimeout(printSteps,200);
+    setTimeout(printSteps,100);
 }
 
 printSteps();
