@@ -4,21 +4,25 @@
 
 /**
  * A function that determines the state of a cell based on the state of its
- * neighbours, and (optionally) on the coordinates of the cell.
+ * neighbours.  The Moore neighbourhood (8 surrounding squares) is used, but
+ * obviously you could ignore some cells if you only care about the Von Neumann
+ * neighbourhood.  Neighbourhoods of a greater radius are not currently supported.
+ * 
+ * IMPORTANT NOTE: If the contents of the cells in your automaton are objects or
+ * arrays, you should try not to modify them in your function, as they will also
+ * be modified in the array currently being used to create the new generation. This
+ * is done due to performance constraints.
  *
- * The intended use case of the coordinate params is to allow for more
- * complicated artwork or simulations that are not purely determined by initial
- * conditions.  If you don't want to do this, just ignore 'em.
+ * If you don't modify the state of any objects, and always return an either
+ * unchanged or brand new object from this update function, you should be fine.
+ * Anything else could result in unpredictable behaviour.
  *
  * @callback updateFunction
- * @param neighbourhood The neighbourhood of the cell, expressed as a 1D
- *   array.  The cells' values are read by rows, 
- *   so [[1,2,3],[4,5,6],[7,8,9]] is expressed as [1,2,3,4,5,6,7,8,9].
+ * @param neighbourhood The neighbourhood of the cell, expressed as a 3x3 array.
  *   Note that the centre cell, the cell whose value is to be determined,
- *   is equal to neighbourhood[4].
- *   Note also that the elements don't necessarily need to be of type number.
- * @param {number} row The row of the cell whose state is to be determined.
- * @param {number} col The column of the cell whose state is to be determined.
+ *   is equal to neighbourhood[1][1].
+ *   Elements can be of any type, but if using objects or arrays do not modify
+ *   their state.
  * @return The new value for the cell in question.  This probably should have the same
  *   type as the contents of neighbourhood.
  */
@@ -81,7 +85,12 @@ class Automaton{
         this.rows = options.rows || 20;
         /** @private */
         this.cols = options.cols || 20;
-        /** The main data array */
+        /** The main data array.   
+        *
+        * Note that the convention used here
+        * (and elsewhere in this package) is that data[row][col] corresponds
+        * to the row-th cell down and the col-th cell to the right, indexed
+        * from zero (as one would normally expect).*/
         this.data = get2DArray(this.rows,this.cols);
         /** @private */
         this.initializer = options.initializer || (x => 0); 
@@ -120,10 +129,9 @@ class Automaton{
      * @private
      */
     apply(update){
-        var newArray = get2DArray(this.rows,this.cols);
-        var newArray = []
+        var oldArray = []
         for (var i = 0; i < this.rows; i++){
-            newArray[i] = this.data[i].slice();
+            oldArray[i] = this.data[i].slice();
         }
 
         //Decide what bounds to use, based on edge behaviour
@@ -140,26 +148,66 @@ class Automaton{
                 endRow = this.cols - 2;
                 break;
         }
-
-        for (var i = startRow; i <= endRow; i++){
-            for (var j = startCol; j <= endCol; j++){
+        
+        //Update main body of table:
+        for (var i = 1; i < this.rows - 1; i++){
+            for (var j = 1; j < this.cols - 1; j++){
                 //Update according to rule function.
-                // Pass neighbourhood as linear array, read by rows.
-                // (so current value of cell is neighbourhood[4] )
-                var neighbourhood = [0,0,0,0,0,0,0,0,0];
-                for(var m = 0; m < 3; m++){
-                    for(var n = 0; n < 3; n++){
-                        var row = (i + m - 1 + this.rows) % this.rows;
-                        var col = (j + n - 1 + this.cols) % this.cols;
-                        neighbourhood[m*3 + n] = this.data[row][col];
-                    }
-                }
-                newArray[i][j] = update(neighbourhood);
+
+                // (This is faster than nested for loops)
+                this.data[i][j] = update([
+                    oldArray[i-1].slice(j-1,j+2),
+                    oldArray[i].slice(j-1,j+2),
+                    oldArray[i+1].slice(j-1,j+2)
+                ]);
             }// for each cell in row
         }// for each row
 
-        //Overwrite the current state to match
-        this.data = newArray;
+        //Update left & right column (not including corners) if necessary
+        if (this.edgeMode != "freeze"){
+            for(var i = 1; i < this.rows - 1; i ++){
+                // This only runs O(n) times per step, not O(n^2) like above, 
+                // so I didn't bother with optimization.
+                var neighbourhood = [[0,0,0],[0,0,0],[0,0,0]];
+                var neighbourhood2 = [[0,0,0],[0,0,0],[0,0,0]]; //sometimes redundant
+                for(var m = 0; m < 3; m++){
+                    for(var n = 0; n < 3; n++){
+                        var row = (i + m - 1 + this.rows) % this.rows;
+                        var col = (n - 1 + this.cols) % this.cols;
+                        neighbourhood[m][n] = oldArray[row][col];
+                        
+                        //Update right column, too (rarely unnecessary)
+                        col = (this.cols + n - 2) % this.cols;
+                        neighbourhood2[m][n] = oldArray[row][col];
+                    }//inner for
+                }// done building neighbourhood
+                this.data[i][0] = update(neighbourhood);
+                //Second update will be redundant if there is only 1 column
+                this.data[i][this.cols - 1] = update(neighbourhood2);
+            }// for each row
+        }// left & right column
+
+        //Update top & bottom rows if in "toroid" mode
+        if (this.edgeMode == "toroid"){
+            for(var i = 0; i < this.cols; i ++){
+                var neighbourhood = [[0,0,0],[0,0,0],[0,0,0]];
+                var neighbourhood2 = [[0,0,0],[0,0,0],[0,0,0]];
+                for(var m = 0; m < 3; m++){
+                    for(var n = 0; n < 3; n++){
+                        var row = (m - 1 + this.rows) % this.rows;
+                        var col = (i + n - 1 + this.cols) % this.cols;
+                        neighbourhood[m][n] = oldArray[row][col];
+                        
+                        //Update bottom row, too (rarely unnecessary)
+                        row = (this.rows + m - 2) % this.cols;
+                        neighbourhood2[m][n] = oldArray[row][col];
+                    }//inner for
+                }// done building neighbourhood
+                this.data[0][i] = update(neighbourhood);
+                //Second update will be redundant if there is only one row
+                this.data[this.rows - 1][i] = update(neighbourhood2);
+            }// for each row
+        }// left & right column
     }//apply
 
     /** Perform one or more iterations of evolution according to 
@@ -185,7 +233,10 @@ class Automaton{
     }//step
 
     /** Get a human-friendly string representation of the current
-     * state of the automaton.
+     * state of the automaton.  Note that the convention used here
+     * (and elsewhere in this package) is that data[row][col] corresponds
+     * to the row-th cell down and the col-th cell to the right, indexed
+     * from zero (as one would normally expect).
      *
      * @param {function} [map] A function to apply to each cell value, 
      *   returning the string to be used to represent the cell.
