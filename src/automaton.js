@@ -199,7 +199,7 @@ class Automaton{
                         neighbourhood[m][n] = oldArray[row][col];
                         
                         //Update bottom row, too (rarely unnecessary)
-                        row = (this.rows + m - 2) % this.cols;
+                        row = (this.rows + m - 2) % this.rows;
                         neighbourhood2[m][n] = oldArray[row][col];
                     }//inner for
                 }// done building neighbourhood

@@ -1,4 +1,4 @@
-var cellulite = require("./main.js");
+var cellulite = require("../main.js");
 
 //Randomize the state of the automaton
 function rand(){
@@ -31,7 +31,8 @@ function lifeRule(n){
 //Create a basic automaton and view it
 
 var aut = new cellulite.Automaton(lifeRule,{
-    rows:40,
+    //Dimensions work with a typically-sized console
+    rows:23,
     cols:40,
     initializer:rand,
 });
