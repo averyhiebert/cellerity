@@ -163,16 +163,6 @@ describe("Automaton", function(){
             aut.step();
             assert.deepEqual(aut.data,grid2);
         });// 'freeze' setting
-
-        it("should be moderately fast (slightly machine-dependent)", function(){
-            // Test times out in 2 seconds.
-            // If that happens, we're going slower than I'm happy with.
-            var aut = new Automaton(lifeUpdateRule,{
-                rows:100,
-                cols:100
-            });
-            aut.step(100);
-        });// simple speed test
     });// describe step
 
     describe("#reset()",function(){
