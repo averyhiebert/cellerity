@@ -135,37 +135,33 @@ class Automaton{
         }
 
         //Decide what bounds to use, based on edge behaviour
-        var startRow = 0;
+        var startRow = 1;
         var endRow = this.rows - 1;
-        var startCol = 0;
-        var endCol = this.cols - 1;
-        switch(this.edgeMode){
-            case "freeze":
-                startCol = 1;
-                endCol = this.rows - 2;
-            case "cylinder":
-                startRow = 1;
-                endRow = this.cols - 2;
-                break;
+        if(this.edgeMode == "toroid"){
+            startRow = 0;
+            endRow = this.rows;
         }
-        
+
         //Update main body of table:
-        for (var i = 1; i < this.rows - 1; i++){
+        for (var i = startRow; i < endRow; i++){
+            var topArr = oldArray[(i-1 + this.rows) % this.rows];
+            var midArr = oldArray[i];
+            var bottomArr = oldArray[(i+1) % this.rows];
             for (var j = 1; j < this.cols - 1; j++){
                 //Update according to rule function.
 
                 // (This is faster than nested for loops)
                 this.data[i][j] = update([
-                    oldArray[i-1].slice(j-1,j+2),
-                    oldArray[i].slice(j-1,j+2),
-                    oldArray[i+1].slice(j-1,j+2)
+                    topArr.slice(j-1,j+2),
+                    midArr.slice(j-1,j+2),
+                    bottomArr.slice(j-1,j+2)
                 ]);
             }// for each cell in row
         }// for each row
 
-        //Update left & right column (not including corners) if necessary
+        //Update left & right column if necessary
         if (this.edgeMode != "freeze"){
-            for(var i = 1; i < this.rows - 1; i ++){
+            for(var i = startRow; i < endRow; i ++){
                 // This only runs O(n) times per step, not O(n^2) like above, 
                 // so I didn't bother with optimization.
                 var neighbourhood = [[0,0,0],[0,0,0],[0,0,0]];
@@ -184,28 +180,6 @@ class Automaton{
                 this.data[i][0] = update(neighbourhood);
                 //Second update will be redundant if there is only 1 column
                 this.data[i][this.cols - 1] = update(neighbourhood2);
-            }// for each row
-        }// left & right column
-
-        //Update top & bottom rows if in "toroid" mode
-        if (this.edgeMode == "toroid"){
-            for(var i = 0; i < this.cols; i ++){
-                var neighbourhood = [[0,0,0],[0,0,0],[0,0,0]];
-                var neighbourhood2 = [[0,0,0],[0,0,0],[0,0,0]];
-                for(var m = 0; m < 3; m++){
-                    for(var n = 0; n < 3; n++){
-                        var row = (m - 1 + this.rows) % this.rows;
-                        var col = (i + n - 1 + this.cols) % this.cols;
-                        neighbourhood[m][n] = oldArray[row][col];
-                        
-                        //Update bottom row, too (rarely unnecessary)
-                        row = (this.rows + m - 2) % this.rows;
-                        neighbourhood2[m][n] = oldArray[row][col];
-                    }//inner for
-                }// done building neighbourhood
-                this.data[0][i] = update(neighbourhood);
-                //Second update will be redundant if there is only one row
-                this.data[this.rows - 1][i] = update(neighbourhood2);
             }// for each row
         }// left & right column
     }//apply
