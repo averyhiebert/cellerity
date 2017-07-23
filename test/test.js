@@ -163,6 +163,17 @@ describe("Automaton", function(){
             aut.step();
             assert.deepEqual(aut.data,grid2);
         });// 'freeze' setting
+
+        it("should allow row- and column-dependant updating",function(){
+            var expected = [[1,2,3],[4,5,6],[7,8,9]];
+            var aut = new Automaton((n,row,col) => (3*row + col + 1),{
+                rows:3,
+                cols:3,
+                initializer:()=>0
+            });
+            aut.step()
+            assert.deepEqual(aut.data,expected);
+        });// update by row & column
     });// describe step
 
     describe("#reset()",function(){
