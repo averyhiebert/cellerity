@@ -21,7 +21,7 @@ versions of Node.
 
 ## Usage
 An example using the LifelikeAutomaton class to run Conway's Game of Life
-in the console can be found [here](src/utils/runlife.js).
+in the console can be found [here](examples/runlife.js).
 
 More usage examples will be provided eventually.  In the mean time, you can
 view the API documentation to understand the usage of the Automaton

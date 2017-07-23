@@ -1,16 +1,18 @@
-var cellulite = require("../main.js");
-//This file shows basic use of the LifelikeAutomaton class.
+//This file demonstrates the use of the LifelikeAutomaton class.
 
-//Returns true or false with equal probability:
-function rand(){
-    return Math.random() > 0.5;
-}
+var cellulite = require("../src/main.js");
+// Under normal circumstances, use the following instead:
+//var cellulite = require("cellulite");
 
 //Create a basic automaton using the rule for Conway's Game of Life
 var life = new cellulite.LifelikeAutomaton("3/23",{
-    rows:23, //These dimensions should fit a "typical" console
+    rows:23, //These dimensions fit a "typical" console
     cols:40,
-    initializer:rand, //Randomly initialize each cell as alive or dead.
+    initializer:function(){
+        //Randomly initialize each cell as true or false
+        // (i.e. "alive" or "dead") with equal probability.
+        return Math.random() > 0.5;
+    },
     edgeMode:"toroid" //Wrap edges horizontally and vertically.
 });
 
