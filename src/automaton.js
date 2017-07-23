@@ -4,7 +4,7 @@
 
 /**
  * A function that determines the state of a cell based on the state of its
- * neighbours.  The Moore neighbourhood (8 surrounding squares) is used, but
+ * neighbours.  The Moore neighbourhood (8 surrounding cells) is used, but
  * obviously you could ignore some cells if you only care about the Von Neumann
  * neighbourhood.  Neighbourhoods of a greater radius are not currently supported.
  *

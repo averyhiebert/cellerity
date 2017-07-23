@@ -1,7 +1,9 @@
 "use strict";
 
 var assert = require("assert");
-var Automaton = require("../src/main.js").Automaton;
+var cellulite = require("../src/main.js");
+var Automaton = cellulite.Automaton;
+var LifelikeAutomaton = cellulite.LifelikeAutomaton;
 
 describe("Automaton", function(){
     // Rule to use for testing (Conway's Game of Life)
@@ -64,7 +66,7 @@ describe("Automaton", function(){
         });
     });// describe constructor
 
-    describe("#setRuleset",function(){
+    describe("#setRuleset()",function(){
         it("should change the automaton's ruleset",function(){
             var aut = new Automaton(() => 0);
             aut.setRuleset(() => 37);
@@ -216,3 +218,61 @@ describe("Automaton", function(){
         });
     });// describe prettyPrint
 });// describe Automaton
+
+describe("LifelikeAutomaton",function(){
+    describe("#constructor()",function(){
+        it("should accept a valid rule string without breaking", function(){
+            var aut = new LifelikeAutomaton("3/23");
+        });// default conditions
+
+        it("should succesfully parse and apply a valid rule",function(){
+            var glider = [[0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,1,1,0,0,0],
+                          [0,0,1,0,1,0,0],
+                          [0,0,1,0,0,0,0],
+                          [0,0,0,0,0,0,0]];
+            var glider2 = [[0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,1,1,0,0,0,0],
+                          [0,1,0,1,0,0,0],
+                          [0,1,0,0,0,0,0],
+                          [0,0,0,0,0,0,0],
+                          [0,0,0,0,0,0,0]];
+            var aut = new LifelikeAutomaton("3/23",{
+                startData:glider
+            });
+            aut.step(4);
+            assert.deepEqual(aut.data,glider2);
+        });// successfully parse life
+
+        it("should reject invalid rule",function(){
+            assert.throws(function(){
+                var aut = new LifelikeAutomaton("This will never be valid!");
+            });
+        });
+    });// describe constructor
+
+    describe("#prettyPrint()",function(){
+        it("should use the correct default map function",function(){
+            var aut = new LifelikeAutomaton("3/23",{
+                startData:[[true,true,true],
+                           [false,false,false],
+                           [false,true,false]]
+            });
+            var result = aut.prettyPrint();
+            assert.equal(result,"[][][]\n      \n  []  ");
+        });
+
+        it("should accept an alternate map function",function(){
+            var aut = new LifelikeAutomaton("3/23",{
+                startData:[[true,true,true],
+                           [false,false,false],
+                           [false,true,false]]
+            });
+            var result = aut.prettyPrint((x) => x?"1":"0");
+            assert.equal(result,"111\n000\n010");
+        });
+    });// describe prettyPrint
+});// describe LifelikeAutomaton

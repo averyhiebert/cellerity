@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Automaton</title>
+    <title>JSDoc: Class: LifelikeAutomaton</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Automaton</h1>
+    <h1 class="page-title">Class: LifelikeAutomaton</h1>
 
     
 
@@ -29,9 +29,9 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-cellulite.html">cellulite</a>.</span>Automaton<span class="signature">(ruleset, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="module-cellulite.html">cellulite</a>.</span>LifelikeAutomaton<span class="signature">(ruleString, options)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Class representing a cellular automaton.</div>
+            <div class="class-description">A class representing a lifelike cellular automaton.</div>
         
     
 </header>
@@ -46,7 +46,7 @@
     
 
     
-    <h4 class="name" id="Automaton"><span class="type-signature"></span>new Automaton<span class="signature">(ruleset, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="LifelikeAutomaton"><span class="type-signature"></span>new LifelikeAutomaton<span class="signature">(ruleString, options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -54,7 +54,9 @@
 
 
 <div class="description">
-    Create an automaton instance.
+    Construct a lifelike cellular automaton.  When specifying an
+initializer function or an initial data array, "alive" cells
+should be represented as true, and "dead" cells as false.
 </div>
 
 
@@ -78,8 +80,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -92,32 +92,25 @@
 
         <tr>
             
-                <td class="name"><code>ruleset</code></td>
+                <td class="name"><code>ruleString</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#ruleset">ruleset</a></span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">The rule 
-  that guides the automaton's evolution</td>
+            <td class="description last">A string describing the rule for the
+  automaton, in born/survive format (e.g. "3/23" for Conway's 
+  Game of Life).</td>
         </tr>
 
     
@@ -137,21 +130,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Other options to use when 
-  creating the automaton</td>
+            <td class="description last">The options to use for the automaton.</td>
         </tr>
 
     
@@ -192,7 +174,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line76">line 76</a>
+        <a href="subclasses_lifelike.js.html">subclasses/lifelike.js</a>, <a href="subclasses_lifelike.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -222,6 +204,17 @@
 
     
     </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="module-cellulite.Automaton.html">module:cellulite.Automaton</a></li>
+    </ul>
+
 
     
 
@@ -266,6 +259,11 @@ from zero (as one would normally expect).
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="module-cellulite.Automaton.html#data">module:cellulite.Automaton#data</a>
+    </li></ul></dd>
     
 
     
@@ -325,11 +323,9 @@ from zero (as one would normally expect).
 
 
 <div class="description">
-    Get a human-friendly string representation of the current
-state of the automaton.  Note that the convention used here
-(and elsewhere in this package) is that data[row][col] corresponds
-to the row-th cell down and the col-th cell to the right, indexed
-from zero (as one would normally expect).
+    Get a nice string representation of the state of the automaton.
+Same as <a href="module-cellulite.Automaton.html#prettyPrint">module:cellulite.Automaton#prettyPrint</a>, but with
+a default map function that works well for lifelike automata.
 </div>
 
 
@@ -393,8 +389,8 @@ from zero (as one would normally expect).
 
             
 
-            <td class="description last">A function to apply to each cell value, 
-  returning the string to be used to represent the cell.</td>
+            <td class="description last">A function to apply to each cell value,
+ returning the string to be used to represent the cell.</td>
         </tr>
 
     
@@ -414,6 +410,11 @@ from zero (as one would normally expect).
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="module-cellulite.Automaton.html#prettyPrint">module:cellulite.Automaton#prettyPrint</a>
+    </li></ul></dd>
     
 
     
@@ -435,7 +436,7 @@ from zero (as one would normally expect).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line232">line 232</a>
+        <a href="subclasses_lifelike.js.html">subclasses/lifelike.js</a>, <a href="subclasses_lifelike.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -462,8 +463,7 @@ from zero (as one would normally expect).
 
         
 <div class="param-desc">
-    The string representation of the current state of
-  the automaton.
+    A string representation of the automaton's state.
 </div>
 
 
@@ -521,6 +521,11 @@ from zero (as one would normally expect).
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="module-cellulite.Automaton.html#reset">module:cellulite.Automaton#reset</a>
+    </li></ul></dd>
     
 
     
@@ -657,6 +662,11 @@ from zero (as one would normally expect).
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="module-cellulite.Automaton.html#setRuleset">module:cellulite.Automaton#setRuleset</a>
+    </li></ul></dd>
     
 
     
@@ -813,6 +823,11 @@ the automaton's rule.
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="module-cellulite.Automaton.html#step">module:cellulite.Automaton#step</a>
+    </li></ul></dd>
     
 
     

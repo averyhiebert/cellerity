@@ -1,4 +1,5 @@
-# Cellulite (General Purpose Cellular Automata)
+# Cellulite
+## Extensible Cellular Automata
 Cellulite is intended to be a library providing generalized cellular 
 automaton functionality for a variety of purposes.  In particular, it's 
 meant to work with non-numeric cell values, and offers an Automaton 
@@ -10,12 +11,14 @@ If you don't already have Node.js and npm installed, install them.
 Then, clone the project, and run `npm install` in the project's root
 directory to install dev dependencies.
 
-The project uses some ES6 features that may not be supported in older
+The project uses some language features that may not be supported in older
 versions of Node.
 
 ## Usage
-Usage examples will be provided eventually.  In the mean time, either
-look at the unit tests, check out `src/pseudotests/runlife.js`, or
+An example using the LifelikeAutomaton class to run Conway's Game of Life
+in the console can be found in `src/utils/runlife.js`.
+
+More usage examples will be provided eventually.  In the mean time, you can
 view the API documentation to understand the usage of the Automaton
 class.
 
