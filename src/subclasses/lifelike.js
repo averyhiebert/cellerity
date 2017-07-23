@@ -2,8 +2,8 @@
 var Automaton = require("../automaton.js");
 
 /** A class representing a lifelike cellular automaton.
- * @memberof module:cellulite
- * @extends module:cellulite.Automaton
+ * @memberof module:cellerity
+ * @extends module:cellerity.Automaton
  * @inheritdoc
  */
 class LifelikeAutomaton extends Automaton {
@@ -61,7 +61,7 @@ class LifelikeAutomaton extends Automaton {
     }//parseRule
 
     /** Get a nice string representation of the state of the automaton.
-     * Same as {@link module:cellulite.Automaton#prettyPrint}, but with
+     * Same as {@link module:cellerity.Automaton#prettyPrint}, but with
      * a default map function that works well for lifelike automata.
      *
      * @param {function} [map] A function to apply to each cell value,

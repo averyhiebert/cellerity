@@ -1,6 +1,6 @@
-var cellulite = require("../main.js");
-var Automaton = cellulite.Automaton;
-var LifelikeAutomaton = cellulite.LifelikeAutomaton;
+var cellerity = require("../main.js");
+var Automaton = cellerity.Automaton;
+var LifelikeAutomaton = cellerity.LifelikeAutomaton;
 
 // Test generations-per-second on a standard data set =========================
 

@@ -71,7 +71,7 @@
 
 /**
  * Class representing a cellular automaton.
- * @memberof module:cellulite
+ * @memberof module:cellerity
  */
 class Automaton{
     /** Create an automaton instance.

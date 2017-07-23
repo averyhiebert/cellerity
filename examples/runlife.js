@@ -1,11 +1,11 @@
 //This file demonstrates the use of the LifelikeAutomaton class.
 
-var cellulite = require("../src/main.js");
+var cellerity = require("../src/main.js");
 // Under normal circumstances, use the following instead:
-//var cellulite = require("cellulite");
+//var cellerity = require("cellerity");
 
 //Create a basic automaton using the rule for Conway's Game of Life
-var life = new cellulite.LifelikeAutomaton("3/23",{
+var life = new cellerity.LifelikeAutomaton("3/23",{
     rows:23, //These dimensions fit a "typical" console
     cols:40,
     initializer:function(){

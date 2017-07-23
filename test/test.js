@@ -1,9 +1,9 @@
 "use strict";
 
 var assert = require("assert");
-var cellulite = require("../src/main.js");
-var Automaton = cellulite.Automaton;
-var LifelikeAutomaton = cellulite.LifelikeAutomaton;
+var cellerity = require("../src/main.js");
+var Automaton = cellerity.Automaton;
+var LifelikeAutomaton = cellerity.LifelikeAutomaton;
 
 describe("Automaton", function(){
     // Rule to use for testing (Conway's Game of Life)
