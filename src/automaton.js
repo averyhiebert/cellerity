@@ -7,6 +7,10 @@
  * neighbours.  The Moore neighbourhood (8 surrounding squares) is used, but
  * obviously you could ignore some cells if you only care about the Von Neumann
  * neighbourhood.  Neighbourhoods of a greater radius are not currently supported.
+ *
+ * The additional "row" and "column" params can be used to make your rule's behaviour
+ * vary by location, or allow you to, for example, call some sort of draw function
+ * based on the location and value of each cell as you update it.
  * 
  * IMPORTANT NOTE: If the contents of the cells in your automaton are objects or
  * arrays, you should try not to modify them in your function, as they will also
@@ -23,6 +27,8 @@
  *   is equal to neighbourhood[1][1].
  *   Elements can be of any type, but if using objects or arrays do not modify
  *   their state.
+ * @param {number} row The cell's row index.  Feel free to ignore this.
+ * @param {number} col The cell's column index.  Feel free to ignore this.
  * @return The new value for the cell in question.  This probably should have the same
  *   type as the contents of neighbourhood.
  */
@@ -35,8 +41,7 @@
  * @callback initializerFunction
  * @param {number} row The row of the cell to be initialized.
  * @param {number} col The column of the cell to be initialized.
- * @return The intended initial value for the cell.  Note that this does not need
- *   to be a number!
+ * @return The intended initial value for the cell.  The type can be whatever you want.
  */
 
 /** A ruleset for a cellular automaton.  If a single updateFunction is given, that
@@ -155,7 +160,7 @@ class Automaton{
                     topArr.slice(j-1,j+2),
                     midArr.slice(j-1,j+2),
                     bottomArr.slice(j-1,j+2)
-                ]);
+                ],i,j);
             }// for each cell in row
         }// for each row
 
@@ -177,9 +182,9 @@ class Automaton{
                         neighbourhood2[m][n] = oldArray[row][col];
                     }//inner for
                 }// done building neighbourhood
-                this.data[i][0] = update(neighbourhood);
+                this.data[i][0] = update(neighbourhood,i,0);
                 //Second update will be redundant if there is only 1 column
-                this.data[i][this.cols - 1] = update(neighbourhood2);
+                this.data[i][this.cols - 1] = update(neighbourhood2,i,this.cols - 1);
             }// for each row
         }// left & right column
     }//apply

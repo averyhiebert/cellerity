@@ -9,9 +9,32 @@ function lifeRule(n){
                 n[1][2] + n[2][0] + n[2][1] + n[2][2];
     if(n[1][1]){
         //Implemented weird to reflect the format of a more generalized rule
-        return ([2,3].indexOf(count) > -1);
+        return ([2,3].indexOf(count) > -1)?1:0;
     }else{
-        return ([3].indexOf(count) > -1);
+        return ([3].indexOf(count) > -1)?1:0;
+    }
+}
+
+//Test of a more complex rule - uses object-valued cells to track age.
+function weirdRule(n){
+    var count = 0;
+    var cell = n[1][1];
+    for(var i = 0; i < 3; i++){
+        for(var j = 0; j < 3; j++){
+            count += (n[i][j].alive? 1 : 0);
+        }
+    }
+    if(cell.alive){
+        count--;
+        if(count == 3 || count == 2){
+            return {alive:true,age:cell.age + 1}
+        }else{
+            return {alive:false,age:0}
+        }
+    }else if (count == 3){
+        return {alive:true, age:1}
+    }else{
+        return {alive:false, age:0}
     }
 }
 
@@ -32,7 +55,7 @@ function rpent(row,column){
     }
 }
 
-//Start the test
+//Start the tests ============================================================
 //Smaller grid, many generations:
 var aut = new Automaton(lifeRule,{
     rows:100,
@@ -44,7 +67,7 @@ var start = new Date();
 aut.step(1000);
 var time = new Date() - start;
 
-console.log("100x100 grid, 1000 generations:");
+console.log("\n100x100 grid, 1000 generations:");
 console.log("" + time + " ms, average " + (1000/(time/1000.0)) + " fps");
 
 //Large grid:
@@ -54,8 +77,25 @@ var aut = new Automaton(lifeRule,{
     initializer:rpent
 });
 
-var start = new Date();
+start = new Date();
 aut.step(10);
-var time = new Date() - start;
-console.log("1000x1000 grid, 10 generations:");
+time = new Date() - start;
+console.log("\n1000x1000 grid, 10 generations:");
 console.log("" + time + " ms, average " + (10/(time/1000.0)) + " fps");
+
+//Small grid, more complex object-based rule
+//(Using a random start this time, not that it matters, I think)
+var aut = new Automaton(weirdRule,{
+    rows:100,
+    cols:100,
+    initializer:function(){
+        var alive = Math.random() > 0.5;
+        return {alive:alive,age:(alive?1:0)};
+    }
+});
+
+start = new Date();
+aut.step(1000);
+time = new Date() - start;
+console.log("\nMore complex rule, 100x100 grid, 1000 generations:");
+console.log("" + time + " ms, average " + (1000/(time/1000.0)) + " fps");
