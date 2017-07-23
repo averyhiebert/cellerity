@@ -64,6 +64,15 @@ describe("Automaton", function(){
         });
     });// describe constructor
 
+    describe("#setRuleset",function(){
+        it("should change the automaton's ruleset",function(){
+            var aut = new Automaton(() => 0);
+            aut.setRuleset(() => 37);
+            aut.step();
+            assert.equal(aut.data[1][1],37);
+        });
+    });
+
     describe("#step()",function(){
         it("should support a simple update rule",function(){
             var aut = new Automaton(n => n[1][1] + 1);

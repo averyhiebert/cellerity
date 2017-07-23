@@ -116,6 +116,13 @@ class Automaton{
         this.reset();
     }//constructor
 
+    /** Change the automaton's ruleset.
+     * @param {ruleset} ruleset The new update function(s) 
+     *   for the automaton.*/
+    setRuleset(ruleset){
+        this.ruleset = ruleset;
+    }
+
     /** Set the automaton's data to initial conditions */
     reset(){
         //Call the initializer on each item of data
