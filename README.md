@@ -5,21 +5,28 @@ meant to work with non-numeric cell values, and offers an Automaton
 class that can be extended to more restricted types of automata 
 (e.g. lifelike automata or elementary automata).
 
+## Installation
+If you don't already have Node.js and npm installed, install them.
+Then, clone the project, and run `npm install` in the project's root
+directory to install dev dependencies.
 
-## API and Other Documentation
-Currently, the only documentation available is the JSDoc documentation 
-located in the `docs/jsdocs/out` directory.
+The project uses some ES6 features that may not be supported in older
+versions of Node.
 
-## Current Features
-Automaton class allows basic functionality of initializing and running an automaton.
+## Usage
+Usage examples will be provided eventually.  In the mean time, either
+look at the unit tests, check out `src/pseudotests/runlife.js`, or
+view the API documentation to understand the usage of the Automaton
+class.
 
-## Possible Future Work
-- Implement subclasses for lifelike automata and elementary cellular automata
-- Tutorials and examples of interesting uses
-- Use Browserify to make library browser-friendly
-- Tools for rendering as images or via HTML5 canvas
-- Functionality facilitating increased interactivity (e.g. mouse clicks when in the browser)
-- Command line tools for development and experimentation
+## Documentation
+Documentation for the public API can be found in the `docs/htmlDocs` 
+directory.
+
+You can build the documentation by running `npm run documentation`.
+
+## Tests
+Run unit tests and generate a code coverage report using `npm test`.
 
 ## License
 I'll probably release this under the LGPL at some point, but for now consider it copyrighted.

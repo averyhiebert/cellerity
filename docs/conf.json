@@ -2,7 +2,7 @@
     "plugins": [],
     "recurseDepth": 10,
     "source": {
-        "include": ["../../src/"],
+        "include": ["./src/"],
         "includePattern": ".+\\.js(doc|x)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
@@ -17,6 +17,7 @@
     },
     "opts":{
         "recurse": true,
-        "readme":"../../README.md"
+        "readme":"README.md",
+        "destination":"./docs/htmlDocs"
     }
 }
