@@ -275,4 +275,36 @@ describe("LifelikeAutomaton",function(){
             assert.equal(result,"111\n000\n010");
         });
     });// describe prettyPrint
+
+    describe("#setRuleset()",function(){
+        it("should change the automaton's ruleset",function(){
+            var grid1 = [[false,false,false,false],
+                         [false,true,false,false],
+                         [false,true,false,false],
+                         [false,false,false,false]]
+            var grid2 = [[false,false,false,false],
+                         [true,false,true,false],
+                         [true,false,true,false],
+                         [false,false,false,false]]
+            var aut = new LifelikeAutomaton("3/23",{startData:grid1});
+            aut.setRuleset("2/");
+            aut.step();
+            assert.deepEqual(aut.data,grid2);
+        });// basic test
+
+        it("should support composition of functions",function(){
+            var grid1 = [[false,false,false,false],
+                         [false,true,false,false],
+                         [false,true,false,false],
+                         [false,false,false,false]]
+            var grid2 = [[false,true,false,true],
+                         [false,false,false,false],
+                         [false,false,false,false],
+                         [false,true,false,true]]
+            var aut = new LifelikeAutomaton("3/23",{startData:grid1});
+            aut.setRuleset(["2/","2/"]); //Seeds composed with itself
+            aut.step();
+            assert.deepEqual(aut.data,grid2);
+        });// composition of functions
+    });// describe setRuleset
 });// describe LifelikeAutomaton

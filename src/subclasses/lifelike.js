@@ -12,8 +12,8 @@ class LifelikeAutomaton extends Automaton {
      * should be represented as true, and "dead" cells as false.
      *
      * @param {string} ruleString A string describing the rule for the
-     *   automaton, in born/survive format (e.g. "3/23" for Conway's 
-     *   Game of Life).
+     *   automaton, in born/survive format (e.g. "B3/S23" or just
+     *   "3/23" for Conway's Game of Life).
      * @param {automatonOptions} options The options to use for the automaton.
      * @throws {string} An error message if the rule is not understood.
      */
@@ -21,6 +21,25 @@ class LifelikeAutomaton extends Automaton {
         var ruleset = LifelikeAutomaton.parseRule(ruleString);
         super(ruleset,options);
     }//constructor
+
+    /** Change the automaton's ruleset.
+     * @param {string | string[]} ruleset The rule or rules to use
+     *   for the automaton, in "B/S" format (e.g. "B3/S23" or just 
+     *   "3/23" for Conway's Game of Life).  If a list is provided, 
+     *   the rules will be composed in order.
+     * @throws {string} An error message if the rule is not valid.
+     */
+    setRuleset(ruleset){
+        if(typeof ruleset == "string"){
+            this.ruleset = LifelikeAutomaton.parseRule(ruleset);
+        }else{
+            var rules = [];
+            ruleset.forEach(function(ruleString){
+                rules.push(LifelikeAutomaton.parseRule(ruleString));
+            });
+            this.ruleset = rules;
+        }
+    }//setRuleset
 
     /** Parse a string describing an update rule into a function.
      *
