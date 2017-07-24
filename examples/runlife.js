@@ -4,8 +4,14 @@ var cellerity = require("../src/main.js");
 // Under normal circumstances, use the following instead:
 //var cellerity = require("cellerity");
 
-//Create a basic automaton using the rule for Conway's Game of Life
-var life = new cellerity.LifelikeAutomaton("3/23",{
+//Set the rule to use based on first command line argument.
+var rule = "3/23"; //Conway's Game of Life
+if(process.argv.length > 2){
+    rule = process.argv[2]; //Take first argument as rule
+}
+
+//Create a basic automaton using the chosen rule
+var life = new cellerity.LifelikeAutomaton(rule,{
     rows:23, //These dimensions fit a "typical" console
     cols:40,
     initializer:function(){

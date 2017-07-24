@@ -56,7 +56,7 @@ class LifelikeAutomaton extends Automaton {
         }else{
             //In future, check against known rule names.
             // For now, just throw error.
-            throw "Rule '" + rule + "' not recognized.";
+            throw "Rule '" + ruleString + "' not recognized.";
         }
     }//parseRule
 
