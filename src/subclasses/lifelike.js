@@ -30,7 +30,7 @@ class LifelikeAutomaton extends Automaton {
      * @private
      */
     static parseRule(ruleString){
-        var re = /^(\d*)[^\d](\d*)$/;
+        var re = /^B?(\d*)[^\d]S?(\d*)$/i;
         var m = re.exec(ruleString);
         if(m){
             var born = [];

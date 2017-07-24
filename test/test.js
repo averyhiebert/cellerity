@@ -240,7 +240,7 @@ describe("LifelikeAutomaton",function(){
                           [0,1,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0]];
-            var aut = new LifelikeAutomaton("3/23",{
+            var aut = new LifelikeAutomaton("B3/S23",{
                 startData:glider
             });
             aut.step(4);
