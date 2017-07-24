@@ -14,7 +14,10 @@
   "directories":{"doc":"./docs/htmlDocs"},
   "author": {"name":"Avery Hiebert"},
   "license": "MIT",
-  "repository":"https://github.com/averyhiebert/cellerity",
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/averyhiebert/cellerity.git"
+  },
   "devDependencies": {
     "istanbul": "^0.4.5",
     "jsdoc": "^3.5.3",
