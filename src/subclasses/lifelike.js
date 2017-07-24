@@ -19,6 +19,8 @@ class LifelikeAutomaton extends Automaton {
      */
     constructor(ruleString,options){
         var ruleset = LifelikeAutomaton.parseRule(ruleString);
+        options = options || {};
+        options.initializer = options.initializer || ()=>false;//Rather than 0
         super(ruleset,options);
     }//constructor
 
