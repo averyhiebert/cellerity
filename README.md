@@ -2,14 +2,15 @@
 ## Extensible Cellular Automata
 Cellerity provides general 
 [cellular automaton](https://en.wikipedia.org/wiki/Cellular_automaton) 
-functionality.  In order to support a variety of uses, it's 
+tools.  In order to support a variety of uses, it's 
 designed to work with non-numeric cell values, and offers an Automaton 
 class that can be extended to more specific types of automata 
 (e.g. [lifelike automata](https://en.wikipedia.org/wiki/Life-like_cellular_automaton) 
 or [elementary automata](https://en.wikipedia.org/wiki/Elementary_cellular_automaton)).
 
-Currently, the module includes the general Automaton class, as well as
-the LifelikeAutomaton subclass which makes it easy to simulate any
+The primary focus of the module is the Automaton class, which supports
+very general cellular automaton functionality.  Additionally, a more
+concrete LifelikeAutomaton subclass makes it easy to simulate any
 lifelike cellular automaton and serves an example of how to extend
 the Automaton class.
 
