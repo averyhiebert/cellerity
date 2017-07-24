@@ -123,6 +123,38 @@ class Automaton{
         this.ruleset = ruleset;
     }
 
+    /** Add a function to be executed after a cell is updated.
+     * This can be used to speed up tasks such as image rendering, 
+     * since it saves you having to iterate over the array more
+     * than once for each frame.
+     *
+     * @param {function} postUpdate The function to run after each
+     *   cell is updated.  Should take three params: cellValue, rowIndex,
+     *   and colIndex.
+     */
+    addPostUpdate(postUpdate){
+        if(typeof this.ruleset == "function"){
+            var ruleset = this.ruleset;
+            var newRule = function(neighbourhood,row,col){
+                var newValue = ruleset(neighbourhood,row,col);
+                postUpdate(newValue,row,col);
+                return newValue;
+            }
+            this.ruleset = newRule;
+        }else{
+            //We currently have multiple update rules composed.
+            //Add the postupdate to the last rule in the list.
+            var lastRule = this.ruleset[this.ruleset.length - 1];
+            var newRule = function(neighbourhood,row,col){
+                var newValue = lastRule(neighbourhood,row,col);
+                postUpdate(newValue,row,col);
+                return newValue;
+            }
+            this.ruleset = this.ruleset.slice(0,this.ruleset.length - 1);
+            this.ruleset.push(newRule);
+        }
+    }//addPostUpdate
+
     /** Set the automaton's data to initial conditions */
     reset(){
         //Call the initializer on each item of data

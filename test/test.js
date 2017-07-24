@@ -75,6 +75,29 @@ describe("Automaton", function(){
         });
     });
 
+    describe("#addPostUpdate()",function(){
+        it("should add a post-update function",function(){
+            var aut = new Automaton((n) => n[1][1]+1);
+            var mostRecentValue = 0;
+            aut.addPostUpdate(function(cellValue,row,col){
+                mostRecentValue = cellValue;
+            });
+            aut.step(5); //All cells should now equal 5
+            assert.equal(mostRecentValue,5);
+        });// basic test
+
+        it("should work with ruleset of composed functions",function(){
+            var ruleset = [(n) => n[1][1]+1,(n) => n[1][1]+1];
+            var aut = new Automaton(ruleset);
+            var mostRecentValue = 0;
+            aut.addPostUpdate(function(cellValue,row,col){
+                mostRecentValue = cellValue;
+            });
+            aut.step(2); //All cells should now equal 2*2 = 4
+            assert.equal(mostRecentValue,4);
+        });// composed functions
+    });// describe addPostUpdate
+
     describe("#step()",function(){
         it("should support a simple update rule",function(){
             var aut = new Automaton(n => n[1][1] + 1);
