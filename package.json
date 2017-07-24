@@ -1,15 +1,20 @@
 {
   "name": "cellerity",
   "version": "0.0.1",
-  "description": "A library of general-purpose cellular automaton functionality",
+  "engines": {"node":">=4.2.6"},
+  "description": "Extensible general-purpose cellular automata",
+  "keywords":["cellular","automata","automaton","Game of Life","lifelike",
+        "Conway","procedural","generation","simulation"],
   "main": "src/main.js",
   "scripts": {
     "documentation": "node_modules/.bin/jsdoc -c ./docs/conf.json",
     "test": "istanbul cover _mocha -- -R spec",
     "start": "echo \"Error: no start script specified\" && exit 1"
   },
-  "author": "Avery Hiebert",
-  "license": "Not licensed for public use (yet)",
+  "directories":{"doc":"./docs/htmlDocs"},
+  "author": {"name":"Avery Hiebert"},
+  "license": "MIT",
+  "repository":"https://github.com/averyhiebert/cellerity",
   "devDependencies": {
     "istanbul": "^0.4.5",
     "jsdoc": "^3.5.3",
