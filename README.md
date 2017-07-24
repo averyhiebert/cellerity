@@ -51,6 +51,6 @@ you can build the documentation by running `npm run documentation`.
 If you have cloned the repository and installed the dev dependencies, 
 you can run unit tests and generate a code coverage report using `npm test`.
 
-## License
+## Licence
 This package was written by Avery Hiebert and released under the 
 MIT license, as described in `LICENCE.txt`
