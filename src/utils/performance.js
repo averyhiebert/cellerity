@@ -50,11 +50,8 @@ function rpent(row,column){
 console.log("Starting Performance Test");
 
 //Smaller grid, many generations:
-var aut = new LifelikeAutomaton("3/23",{
-    rows:100,
-    cols:100,
-    initializer:rpent
-});
+var aut = new LifelikeAutomaton("3/23",100,100);
+aut.setInitializer(rpent);
 
 var start = new Date();
 aut.step(1000);
@@ -64,11 +61,8 @@ console.log("\n100x100 grid, 1000 generations:");
 console.log("" + time + " ms, average " + (1000/(time/1000.0)) + " fps");
 
 //Large grid:
-var aut = new LifelikeAutomaton("3/23",{
-    rows:1000,
-    cols:1000,
-    initializer:rpent
-});
+var aut = new LifelikeAutomaton("3/23",1000,1000);
+aut.setInitializer(rpent);
 
 start = new Date();
 aut.step(10);
@@ -78,14 +72,12 @@ console.log("" + time + " ms, average " + (10/(time/1000.0)) + " fps");
 
 //Small grid, more complex object-based rule
 //(Using a random start this time, not that it matters, I think)
-var aut = new Automaton(weirdRule,{
-    rows:100,
-    cols:100,
-    initializer:function(){
-        var alive = Math.random() > 0.5;
-        return {alive:alive,age:(alive?1:0)};
-    }
+var aut = new Automaton(weirdRule,100,100);
+aut.setInitializer(function(){
+    var alive = Math.random() > 0.5;
+    return {alive:alive,age:(alive?1:0)};
 });
+
 
 start = new Date();
 aut.step(1000);
