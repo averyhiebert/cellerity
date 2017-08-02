@@ -1,5 +1,7 @@
 # Cellerity
 ## Extensible Cellular Automata
+*NOTE*: The public API is not yet stable (hence major version 0).
+
 Cellerity provides general 
 [cellular automaton](https://en.wikipedia.org/wiki/Cellular_automaton) 
 tools.  In order to support a variety of uses, it's 

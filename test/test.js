@@ -74,6 +74,15 @@ describe("Automaton", function(){
             aut.setInitializer(startArray);
             assert.deepEqual(aut.data,expectedArray);
         });
+
+        it("should support a postStep function",function(){
+            var counter = 0;
+            var aut = new Automaton(() => 0);
+            aut.setPostStep(() => counter++);
+
+            aut.step(7);
+            assert.equal(counter,7);
+        });
     });// describe constructor
 
     describe("#setRuleset()",function(){

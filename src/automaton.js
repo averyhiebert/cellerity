@@ -94,6 +94,11 @@ class Automaton{
          *@private */
         this.edgeMode = "toroid";
 
+        /**
+         * A function to execute after each "step"
+         * @private */
+        this.postStep = function(){};
+
         //Set the grid to initial conditions
         this.reset();
     }//constructor
@@ -154,7 +159,19 @@ class Automaton{
      */
     setEdgeMode(edgeMode){
         this.edgeMode = edgeMode;
-    }
+    }//setEdgeMode
+
+    /** Set a function to be executed after each "step".
+     * This could be useful for integrating with other functionality
+     * (e.g. image rendering or mouse interactivity), or adding
+     * internal functionality (e.g. tracking # of living cells, entropy, etc.)
+     *
+     * @param {function} postStep A function to be executed after
+     *  each generation.
+     */
+    setPostStep(postStep){
+        this.postStep = postStep;
+    }//setPostStep
 
     /** Add a function to be executed after a cell is updated.
      * This can be used to speed up tasks such as image rendering, 
@@ -272,6 +289,7 @@ class Automaton{
         if((typeof this.ruleset) == "function"){
             for(var i = 0; i < n; i++){
                 this.apply(this.ruleset);
+                this.postStep();
             }
         }else{
             //Compose functions, in order.
@@ -280,6 +298,7 @@ class Automaton{
                 this.ruleset.forEach(function(updateFunction){
                     that.apply(updateFunction)
                 });
+                this.postStep();
             }
         }
     }//step
