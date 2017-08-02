@@ -78,18 +78,17 @@ class Automaton{
      *
      * @param ruleset {ruleset} The rule 
      *   that guides the automaton's evolution
-     * @param [options] {automatonOptions} Other options to use when 
-     *   creating the automaton
+     * @param {number} [rows=20] The number of rows of cells to use.
+     * @param {number} [cols=20] The number of columns of cells to use.
      */
-    constructor(ruleset,options){
-        options = options || {};
-        /** @private */
+    constructor(ruleset,rows,cols){
         this.ruleset = ruleset;
 
         /** @private */
-        this.rows = options.rows || 20;
+        this.rows = rows || 20;
         /** @private */
-        this.cols = options.cols || 20;
+        this.cols = cols || 20;
+
         /** The main data array.   
         *
         * Note that the convention used here
@@ -97,20 +96,17 @@ class Automaton{
         * to the row-th cell down and the col-th cell to the right, indexed
         * from zero (as one would normally expect).*/
         this.data = get2DArray(this.rows,this.cols);
-        /** @private */
-        this.initializer = options.initializer || (x => 0); 
 
-        //Override preceding four conditions if necessary
-        if(options.startData){
-            var d = options.startData;
-            this.rows = d.length;
-            this.cols = d[0].length;
-            this.initializer = Automaton.constantInitializer(d);
-            this.data = get2DArray(this.rows,this.cols);
-        }
+        /** 
+         * The function used to initialize the contents of the data array.
+         * Default: Initialize all cells to 0.
+         * @private */
+        this.initializer = (x => 0); 
 
-        /** @private */
-        this.edgeMode = options.edgeMode || "toroid";
+        /** 
+         * The edge mode, one of "toroid", "cylinder", or "freeze"
+         *@private */
+        this.edgeMode = "toroid";
 
         //Set the grid to initial conditions
         this.reset();
@@ -121,6 +117,57 @@ class Automaton{
      *   for the automaton.*/
     setRuleset(ruleset){
         this.ruleset = ruleset;
+    }//setRuleset
+
+    /** Change the automaton's dimensions.
+     * This will reset the automaton's state to conform to the chosen
+     * dimensions, using the automaton's current initializer function.
+     * @param {number} rows The new number of rows.
+     * @param {number} cols The new number of columns.
+     */
+    setDimensions(rows,cols){
+        this.rows = rows;
+        this.cols = cols;
+        this.reset();
+    }//setDimensions
+
+    /** Change the function used to initialize the automaton's state,
+     * and then reset the automaton to the new initial conditions.
+     *
+     * If a 2D array is provided, the automaton will be initialized
+     * so as to match the given array as closely as possible, causing
+     * the provided array to repeat in a tiled fashion if it is not
+     * large enough to fully cover the automaton's data grid.
+     *
+     * @param {initializerFunction | Array[]} initial
+     *   Either an initializer function, or a 2D array of cell values, to
+     *   use to initialize the automaton's state when resetting.
+     */
+    setInitializer(initial){
+        if(typeof initial == "function"){
+            this.initializer = initial;
+        }else{
+            //Copy initializer so that it doesn't change if the
+            // passed array changes.
+            this.initializer = Automaton.constantInitializer(initial);
+        }
+        this.reset();
+    }//setInitializer
+
+    /** Set the automaton's edge behaviour.
+     * If "toroid", the neighbourhood of cells near the edge of the
+     * grid will "wrap around" horizontally and vertically.
+     *
+     * If "cylinder", the neighbourhood will wrap horizontally only,
+     * and cells in the top and bottom row will never change.
+     *
+     * If "freeze", cells on the edge of the grid will never change.
+     *
+     * @param {string} edgeMode The edge mode, one of "toroid",
+     *   "cylinder", "freeze".
+     */
+    setEdgeMode(edgeMode){
+        this.edgeMode = edgeMode;
     }
 
     /** Add a function to be executed after a cell is updated.
@@ -158,12 +205,13 @@ class Automaton{
     /** Set the automaton's data to initial conditions */
     reset(){
         //Call the initializer on each item of data
+        this.data = get2DArray(this.rows,this.cols);
         for (var row = 0; row < this.data.length; row ++){
             for (var col = 0; col < this.data[row].length; col ++){
                 this.data[row][col] = this.initializer(row,col);
             }
         }
-    }//initialize
+    }//reset
 
     /** Run one iteration of the automaton's evolution, using the
      * function passed in.  This should not be used externally, only
@@ -280,7 +328,9 @@ class Automaton{
     }//prettyPrint
 
     /** Return an initializer that initializes the array to match
-     * a specified constant array.
+     * a specified constant array.  The array will be assumed to
+     * "wrap around" in a toroidal, "tiled" fashion.
+     *
      * @private
      * @param array The array to initialize to.  Should have at least
      *   the dimensions of the automaton.
@@ -288,10 +338,15 @@ class Automaton{
      *   in the creation of an automaton.
      */
     static constantInitializer(arr){
-        return function(row,col){
-            return arr[row][col];
+        //Deep copy the array first
+        var copy = [];
+        for (var i = 0; i < arr.length; i++){
+            copy[i] = arr[i].slice();
         }
-    }
+        return function(row,col){
+            return copy[row % copy.length][col % copy[0].length];
+        }
+    }//constantInitializer
 }//Automaton
 
 /** Get a 2D array of zeros.
@@ -307,6 +362,6 @@ function get2DArray(rows,cols){
         a[i] = new Array(cols).fill(0);
     }
     return a;
-}
+}// get2DArray
 
 module.exports = Automaton;

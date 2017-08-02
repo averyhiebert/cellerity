@@ -14,14 +14,14 @@ class LifelikeAutomaton extends Automaton {
      * @param {string} ruleString A string describing the rule for the
      *   automaton, in born/survive format (e.g. "B3/S23" or just
      *   "3/23" for Conway's Game of Life).
-     * @param {automatonOptions} options The options to use for the automaton.
+     * @param {number} [rows=20] The number of rows to use.
+     * @param {number} [cols=20] The number of columns to use.
      * @throws {string} An error message if the rule is not understood.
      */
-    constructor(ruleString,options){
+    constructor(ruleString,rows,cols){
         var ruleset = LifelikeAutomaton.parseRule(ruleString);
-        options = options || {};
-        options.initializer = options.initializer || (x=>false);
-        super(ruleset,options);
+        super(ruleset,rows,cols);
+        this.setInitializer(x => false);
     }//constructor
 
     /** Change the automaton's ruleset.

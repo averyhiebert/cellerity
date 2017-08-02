@@ -26,7 +26,7 @@ describe("Automaton", function(){
         }
     }
 
-    describe("#constructor()",function(){
+    describe("#constructor() and setters",function(){
         it("should initialize an automaton to default conditions", function(){
             var aut = new Automaton(() => 0);
             assert.equal(aut.data.length,20);
@@ -35,19 +35,15 @@ describe("Automaton", function(){
         });// default conditions
 
         it("should support alternate dimensions", function(){
-            var aut = new Automaton(() => 0,{
-                rows:3,
-                cols:5
-            });
+            var aut = new Automaton(() => 0,3,5);
             assert.equal(aut.data.length,3);
             assert.equal(aut.data[0].length,5);
         });// alternate dimensions
 
         it("should support an alternate initialization function",function(){
-            var aut = new Automaton(() => 0,{
-                initializer:function(row,col){
-                    return [row,col,"test"];
-                }
+            var aut = new Automaton(() => 0);
+            aut.setInitializer(function(row,col){
+                return [row,col,"test"];
             });
             
             for (var i = 0; i < aut.data.length; i++){
@@ -59,10 +55,17 @@ describe("Automaton", function(){
 
         it("should support initializing using a set array",function(){
             var startArray = [[1,2,3],[4,5,6],[7,8,9]];
-            var aut = new Automaton(() => 0,{
-                startData:startArray
-            });
+            var aut = new Automaton(() => 0,3,3);
+            aut.setInitializer(startArray);
             assert.deepEqual(aut.data,startArray);
+        });
+
+        it("should 'tile' the initialzer array if necessary",function(){
+            var startArray = [[1,2],[3,4]];
+            var expectedArray = [[1,2,1],[3,4,3],[1,2,1]];
+            var aut = new Automaton(() => 0,3,3);
+            aut.setInitializer(startArray);
+            assert.deepEqual(aut.data,expectedArray);
         });
     });// describe constructor
 
@@ -125,9 +128,8 @@ describe("Automaton", function(){
                           [0,1,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0]];
-            var aut = new Automaton(lifeUpdateRule,{
-                startData:glider
-            });
+            var aut = new Automaton(lifeUpdateRule,7,7);
+            aut.setInitializer(glider);
             aut.step(4);
             assert.deepEqual(aut.data,glider2);
         });// Game of Life
@@ -147,9 +149,8 @@ describe("Automaton", function(){
                           [0,0,0,1,0,1,0],
                           [0,0,0,1,0,0,0],
                           [0,0,0,0,0,0,0]];
-            var aut = new Automaton([lifeUpdateRule,lifeUpdateRule],{
-                startData:glider
-            });
+            var aut = new Automaton([lifeUpdateRule,lifeUpdateRule],7,7);
+            aut.setInitializer(glider);
             aut.step(2); //2 steps of rule composed with self = 4 normal steps
             assert.deepEqual(aut.data,glider2);
         });// composition of rules
@@ -161,9 +162,8 @@ describe("Automaton", function(){
             var grid2 = [[1,1,1],
                         [1,1,1],
                         [1,1,1]]
-            var aut = new Automaton(lifeUpdateRule,{
-                startData:grid
-            });
+            var aut = new Automaton(lifeUpdateRule,3,3);
+            aut.setInitializer(grid);
             aut.step();
             assert.deepEqual(aut.data,grid2);
         });// 'toroid' setting
@@ -175,10 +175,10 @@ describe("Automaton", function(){
             var grid2 = [[1,0,1],
                         [1,1,1],
                         [0,0,1]]
-            var aut = new Automaton(lifeUpdateRule,{
-                startData:grid,
-                edgeMode:"cylinder"
-            });
+            var aut = new Automaton(lifeUpdateRule,3,3);
+            aut.setInitializer(grid);
+            aut.setEdgeMode("cylinder");
+
             aut.step();
             assert.deepEqual(aut.data,grid2);
         });// 'cylinder' setting
@@ -190,21 +190,19 @@ describe("Automaton", function(){
             var grid2 = [[1,0,1],
                         [0,1,0],
                         [0,0,1]]
-            var aut = new Automaton(lifeUpdateRule,{
-                startData:grid,
-                edgeMode:"freeze"
-            });
+            var aut = new Automaton(lifeUpdateRule,3,3);
+            aut.setInitializer(grid);
+            aut.setEdgeMode("freeze");
+
             aut.step();
             assert.deepEqual(aut.data,grid2);
         });// 'freeze' setting
 
         it("should allow row- and column-dependant updating",function(){
             var expected = [[1,2,3],[4,5,6],[7,8,9]];
-            var aut = new Automaton((n,row,col) => (3*row + col + 1),{
-                rows:3,
-                cols:3,
-                initializer:()=>0
-            });
+            var aut = new Automaton((n,row,col) => (3*row + col + 1),3,3);
+            aut.setInitializer(()=>0);
+
             aut.step()
             assert.deepEqual(aut.data,expected);
         });// update by row & column
@@ -213,9 +211,9 @@ describe("Automaton", function(){
     describe("#reset()",function(){
         it("should reset automaton data to initial conditions",function(){
             var grid = [[1,2,3],[4,5,6],[7,8,9]];
-            var aut = new Automaton((n) => n[4] + 1,{
-                startData: grid
-            });
+            var aut = new Automaton((n) => n[4] + 1,3,3);
+            aut.setInitializer(grid);
+
             aut.step(5);
             assert.notDeepEqual(aut.data,grid);
             aut.reset();
@@ -225,16 +223,15 @@ describe("Automaton", function(){
 
     describe("#prettyPrint()",function(){
         it("should format the array into a readable string", function(){
-            var aut = new Automaton(() => 0,{
-                startData:[[1,2,3],[4,5,6],[7,8,9]]
-            });
+            var aut = new Automaton(() => 0,3,3);
+            aut.setInitializer([[1,2,3],[4,5,6],[7,8,9]]);
+
             assert.equal(aut.prettyPrint(),"123\n456\n789");
         });// format array into string
 
         it("should use a provided map function to display cells",function(){
-            var aut = new Automaton(() => 0,{
-                startData:[[1,2,3],[4,5,6],[7,8,9]]
-            });           
+            var aut = new Automaton(() => 0,3,3);
+            aut.setInitializer([[1,2,3],[4,5,6],[7,8,9]]);
 
             var s = aut.prettyPrint((cell) => "(" + cell + ")");
             assert.equal(s,"(1)(2)(3)\n(4)(5)(6)\n(7)(8)(9)");
@@ -263,9 +260,8 @@ describe("LifelikeAutomaton",function(){
                           [0,1,0,0,0,0,0],
                           [0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0]];
-            var aut = new LifelikeAutomaton("B3/S23",{
-                startData:glider
-            });
+            var aut = new LifelikeAutomaton("B3/S23",7,7);
+            aut.setInitializer(glider);
             aut.step(4);
             assert.deepEqual(aut.data,glider2);
         });// successfully parse life
@@ -279,21 +275,20 @@ describe("LifelikeAutomaton",function(){
 
     describe("#prettyPrint()",function(){
         it("should use the correct default map function",function(){
-            var aut = new LifelikeAutomaton("3/23",{
-                startData:[[true,true,true],
-                           [false,false,false],
-                           [false,true,false]]
-            });
+            var aut = new LifelikeAutomaton("3/23",3,3);
+            aut.setInitializer([[true,true,true],
+                                [false,false,false],
+                                [false,true,false]]);
             var result = aut.prettyPrint();
             assert.equal(result,"[][][]\n      \n  []  ");
         });
 
         it("should accept an alternate map function",function(){
-            var aut = new LifelikeAutomaton("3/23",{
-                startData:[[true,true,true],
-                           [false,false,false],
-                           [false,true,false]]
-            });
+            var aut = new LifelikeAutomaton("3/23",3,3);
+            aut.setInitializer([[true,true,true],
+                                [false,false,false],
+                                [false,true,false]]);
+
             var result = aut.prettyPrint((x) => x?"1":"0");
             assert.equal(result,"111\n000\n010");
         });
@@ -309,7 +304,9 @@ describe("LifelikeAutomaton",function(){
                          [true,false,true,false],
                          [true,false,true,false],
                          [false,false,false,false]]
-            var aut = new LifelikeAutomaton("3/23",{startData:grid1});
+            var aut = new LifelikeAutomaton("3/23",4,4);
+            aut.setInitializer(grid1);
+
             aut.setRuleset("2/");
             aut.step();
             assert.deepEqual(aut.data,grid2);
@@ -324,7 +321,9 @@ describe("LifelikeAutomaton",function(){
                          [false,false,false,false],
                          [false,false,false,false],
                          [false,true,false,true]]
-            var aut = new LifelikeAutomaton("3/23",{startData:grid1});
+            var aut = new LifelikeAutomaton("3/23",4,4);
+            aut.setInitializer(grid1);
+
             aut.setRuleset(["2/","2/"]); //Seeds composed with itself
             aut.step();
             assert.deepEqual(aut.data,grid2);
