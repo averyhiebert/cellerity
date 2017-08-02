@@ -40,6 +40,13 @@ describe("Automaton", function(){
             assert.equal(aut.data[0].length,5);
         });// alternate dimensions
 
+        it("should support changing the dimensions", function(){
+            var aut = new Automaton(() => 0,3,5);
+            aut.setDimensions(33,46);
+            assert.equal(aut.data.length,33);
+            assert.equal(aut.data[0].length,46);
+        });// alternate dimensions
+
         it("should support an alternate initialization function",function(){
             var aut = new Automaton(() => 0);
             aut.setInitializer(function(row,col){
