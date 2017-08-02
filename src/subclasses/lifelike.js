@@ -2,14 +2,16 @@
 var Automaton = require("../automaton.js");
 
 /** A class representing a lifelike cellular automaton.
+ *
+ * When specifying an initializer function or an initial data array, 
+ * "alive" cells should be represented as true, and "dead" cells as false.
+ *
  * @memberof module:cellerity
  * @extends module:cellerity.Automaton
  * @inheritdoc
  */
 class LifelikeAutomaton extends Automaton {
-    /** Construct a lifelike cellular automaton.  When specifying an
-     * initializer function or an initial data array, "alive" cells
-     * should be represented as true, and "dead" cells as false.
+    /** Construct a lifelike cellular automaton.
      *
      * @param {string} ruleString A string describing the rule for the
      *   automaton, in born/survive format (e.g. "B3/S23" or just

@@ -4,9 +4,9 @@ Cellerity provides general
 [cellular automaton](https://en.wikipedia.org/wiki/Cellular_automaton) 
 tools.  In order to support a variety of uses, it's 
 designed to work with non-numeric cell values, and offers an Automaton 
-class that can be extended to more specific types of automata 
-(e.g. [lifelike automata](https://en.wikipedia.org/wiki/Life-like_cellular_automaton) 
-or [elementary automata](https://en.wikipedia.org/wiki/Elementary_cellular_automaton)).
+class that can be extended to more specific types of cellular automata 
+(e.g. [lifelike cellular automata](https://en.wikipedia.org/wiki/Life-like_cellular_automaton) 
+or [elementary cellular automata](https://en.wikipedia.org/wiki/Elementary_cellular_automaton)).
 
 The primary focus of the module is the Automaton class, which supports
 very general cellular automaton functionality.  Additionally, a more

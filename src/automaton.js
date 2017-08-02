@@ -52,20 +52,6 @@
  * @typedef {updateFunction | updateFunction[]} ruleset
  */
 
-/**
- * An object representing a set of options for a cellular automaton.
- * @typedef {Object} automatonOptions
- * @property {Array} [startData] A 2D array (type is up to you) to use 
- *   as the initial conditions for the automaton.  If this option is 
- *   present, it will override initializer, rows, and cols.
- * @property {number} [rows=20] The number of rows to use
- * @property {number} [cols=20] The number of columns to use
- * @property {initializerFunction} [initializer] The function to use 
- *   to initialize cells (defaults to setting all cells to 0)
- * @property {string} [edgeMode="toroid"] The edge mode to use, 
- *   one of ("toroid", "freeze", "cylinder")
- */
-
 
 // Start of actual code =======================================================
 

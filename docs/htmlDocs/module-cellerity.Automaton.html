@@ -29,7 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-cellerity.html">cellerity</a>.</span>Automaton<span class="signature">(ruleset, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="module-cellerity.html">cellerity</a>.</span>Automaton<span class="signature">(ruleset, rows<span class="signature-attributes">opt</span>, cols<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class representing a cellular automaton.</div>
         
@@ -46,7 +46,7 @@
     
 
     
-    <h4 class="name" id="Automaton"><span class="type-signature"></span>new Automaton<span class="signature">(ruleset, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Automaton"><span class="type-signature"></span>new Automaton<span class="signature">(ruleset, rows<span class="signature-attributes">opt</span>, cols<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -82,6 +82,8 @@
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -115,6 +117,10 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">The rule 
   that guides the automaton's evolution</td>
@@ -124,13 +130,13 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>rows</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#automatonOptions">automatonOptions</a></span>
+<span class="param-type">number</span>
 
 
             
@@ -149,9 +155,53 @@
             
 
             
+                <td class="default">
+                
+                    20
+                
+                </td>
+            
 
-            <td class="description last">Other options to use when 
-  creating the automaton</td>
+            <td class="description last">The number of rows of cells to use.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cols</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    20
+                
+                </td>
+            
+
+            <td class="description last">The number of columns of cells to use.</td>
         </tr>
 
     
@@ -192,7 +242,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line76">line 76</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -289,7 +339,7 @@ from zero (as one would normally expect).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line99">line 99</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
@@ -423,7 +473,7 @@ than once for each frame.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line135">line 135</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line168">line 168</a>
     </li></ul></dd>
     
 
@@ -575,7 +625,7 @@ from zero (as one would normally expect).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line264">line 264</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line298">line 298</a>
     </li></ul></dd>
     
 
@@ -684,7 +734,455 @@ from zero (as one would normally expect).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line159">line 159</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line192">line 192</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setDimensions"><span class="type-signature"></span>setDimensions<span class="signature">(rows, cols)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the automaton's dimensions.
+This will reset the automaton's state to conform to the chosen
+dimensions, using the automaton's current initializer function.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rows</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new number of rows.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cols</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new number of columns.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setEdgeMode"><span class="type-signature"></span>setEdgeMode<span class="signature">(edgeMode)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set the automaton's edge behaviour.
+If "toroid", the neighbourhood of cells near the edge of the
+grid will "wrap around" horizontally and vertically.
+
+If "cylinder", the neighbourhood will wrap horizontally only,
+and cells in the top and bottom row will never change.
+
+If "freeze", cells on the edge of the grid will never change.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>edgeMode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The edge mode, one of "toroid",
+  "cylinder", "freeze".</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line155">line 155</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setInitializer"><span class="type-signature"></span>setInitializer<span class="signature">(initial)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Change the function used to initialize the automaton's state,
+and then reset the automaton to the new initial conditions.
+
+If a 2D array is provided, the automaton will be initialized
+so as to match the given array as closely as possible, causing
+the provided array to repeat in a tiled fashion if it is not
+large enough to fully cover the automaton's data grid.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>initial</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#initializerFunction">initializerFunction</a></span>
+|
+
+<span class="param-type">Array.&lt;Array></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Either an initializer function, or a 2D array of cell values, to
+  use to initialize the automaton's state when resetting.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -820,7 +1318,7 @@ from zero (as one would normally expect).
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line122">line 122</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line104">line 104</a>
     </li></ul></dd>
     
 
@@ -976,7 +1474,7 @@ the automaton's rule.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line236">line 236</a>
+        <a href="automaton.js.html">automaton.js</a>, <a href="automaton.js.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -1026,7 +1524,7 @@ the automaton's rule.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Mon Jul 24 2017 00:48:02 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Tue Aug 01 2017 21:29:42 GMT-0700 (PDT)
 </footer>
 
 <script> prettyPrint(); </script>
