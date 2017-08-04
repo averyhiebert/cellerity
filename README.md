@@ -43,6 +43,18 @@ More usage examples will be provided eventually.  In the mean time, you can
 view the API documentation to understand the usage of the Automaton
 class.
 
+## Browser Support
+If you have cloned the repository and installed the dev dependencies,
+you can use `npm run build` to generate a browser-friendly version of the
+module, located at `dist/cellerity-browser-<version>.js`.
+
+Including this file in your html page should be equivelant 
+to Node's `var cellerity = require("cellerity");`
+
+Note: I have not yet tested a wide range of browsers, and the module does use
+some ES6 functionality, so don't expect support across all browsers currently
+in use.
+
 ## Documentation
 Auto-generated documentation for the public API can be found in 
 the `docs/htmlDocs` directory.
