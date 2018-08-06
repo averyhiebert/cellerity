@@ -62,6 +62,10 @@ the `docs/htmlDocs` directory.
 If you have cloned the repository and installed the dev dependencies, 
 you can build the documentation by running `npm run documentation`.
 
+(It seems that the tests require that you be able to run node as "node"
+rather than "nodejs"; in Ubuntu or Linux Mint, this can be accomplished by
+installing the `nodejs-legacy` legacy symlink package.)
+
 ## Tests
 If you have cloned the repository and installed the dev dependencies, 
 you can run unit tests and generate a code coverage report using `npm test`.
