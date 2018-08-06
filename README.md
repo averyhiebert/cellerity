@@ -41,15 +41,18 @@ or modify the source for the project, clone this repository from
 GitHub and run `npm install` in the project's root directory to
 install the dev dependencies.
 
-## Usage
-An example using the LifelikeAutomaton class to run Conway's Game of Life
-in the console is provided.  You can also pass a rule in the "B/S" format
+## Documentation
+Auto-generated documentation for the public API can be found in 
+the `docs` directory.
+
+If you have cloned the repository and installed the dev dependencies, 
+you can build the documentation by running `npm run documentation`.
+
+To demonstrate usage, an example using the LifelikeAutomaton class to 
+run Conway's Game of Life in the console is provided.  
+You can also pass a rule in the "B/S" format
 (e.g. "B3/S23" for Life) as the first argument to view an automaton other than
 Life.  The script is located at `examples/runlife.js`. 
-
-More usage examples will be provided eventually.  In the mean time, you can
-view the API documentation to understand the usage of the Automaton
-class.
 
 ## Browser Support
 If you have cloned the repository and installed the dev dependencies,
@@ -63,20 +66,14 @@ Note: I have not yet tested a wide range of browsers, and the module does use
 some ES6 functionality, so don't expect support across all browsers currently
 in use.
 
-## Documentation
-Auto-generated documentation for the public API can be found in 
-the `docs/htmlDocs` directory.
-
-If you have cloned the repository and installed the dev dependencies, 
-you can build the documentation by running `npm run documentation`.
-
-(It seems that the tests require that you be able to run node as "node"
-rather than "nodejs"; in Ubuntu or Linux Mint, this can be accomplished by
-installing the `nodejs-legacy` legacy symlink package.)
 
 ## Tests
 If you have cloned the repository and installed the dev dependencies, 
 you can run unit tests and generate a code coverage report using `npm test`.
+
+(It seems that the tests require that you be able to run node as "node"
+rather than "nodejs"; in Ubuntu or Linux Mint, this can be accomplished by
+installing the `nodejs-legacy` legacy symlink package.)
 
 ## Licence
 This package was written by Avery Hiebert and released under the 
