@@ -1,6 +1,4 @@
 # Cellerity
-*NOTE*: The public API is not yet stable (hence major version 0).
-
 Cellerity provides general 
 [cellular automaton](https://en.wikipedia.org/wiki/Cellular_automaton) 
 tools.  In order to support a variety of uses, it's 
@@ -22,7 +20,6 @@ and the ability to use objects as cell values.  I mostly wrote this as
 a personal project to experiment with automated documentation, unit tests,
 and the like, so if it also turns out to be useful for something you're
 doing, that's just a nice bonus.
-
 
 ## Installation
 This is an npm package, so naturally it requires 
@@ -66,13 +63,12 @@ Note: I have not yet tested a wide range of browsers, and the module does use
 some ES6 functionality, so don't expect support across all browsers currently
 in use.
 
-
 ## Tests
 If you have cloned the repository and installed the dev dependencies, 
 you can run unit tests and generate a code coverage report using `npm test`.
 
 (It seems that the tests require that you be able to run node as "node"
-rather than "nodejs"; in Ubuntu or Linux Mint, this can be accomplished by
+rather than "nodejs"; in Ubuntu or Linux Mint, this can be solved by
 installing the `nodejs-legacy` legacy symlink package.)
 
 ## Licence
