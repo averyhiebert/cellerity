@@ -1,5 +1,4 @@
 # Cellerity
-## Extensible Cellular Automata
 *NOTE*: The public API is not yet stable (hence major version 0).
 
 Cellerity provides general 
@@ -15,6 +14,15 @@ very general cellular automaton functionality.  Additionally, a more
 concrete LifelikeAutomaton subclass makes it easy to simulate any
 lifelike cellular automaton and serves an example of how to extend
 the Automaton class.
+
+Other npm packages for cellular automata are available, and probably faster and
+more convenient for most use cases.  Possible reasons to use Cellerity 
+include browser support (which I haven't tested at all recently)
+and the ability to use objects as cell values.  I mostly wrote this as
+a personal project to experiment with automated documentation, unit tests,
+and the like, so if it also turns out to be useful for something you're
+doing, that's just a nice bonus.
+
 
 ## Installation
 This is an npm package, so naturally it requires 
