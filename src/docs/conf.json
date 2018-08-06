@@ -18,6 +18,6 @@
     "opts":{
         "recurse": true,
         "readme":"README.md",
-        "destination":"./docs/htmlDocs"
+        "destination":"./docs"
     }
 }

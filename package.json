@@ -18,7 +18,7 @@
   ],
   "main": "src/main.js",
   "scripts": {
-    "documentation": "node_modules/.bin/jsdoc -c ./docs/conf.json",
+    "documentation": "node_modules/.bin/jsdoc -c ./src/docs/conf.json",
     "build": "browserify src/main.js --standalone cellerity -o \"dist/cellerity-browser-\"$npm_package_version\".js\"",
     "test": "istanbul cover _mocha -- -R spec",
     "start": "echo \"Error: no start script specified\" && exit 1"
