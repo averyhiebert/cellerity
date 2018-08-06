@@ -35,21 +35,22 @@ To install locally for use in your Node.js project, run
 
 If you want to build the documentation, run tests, view examples, 
 or modify the source for the project, clone this repository from 
-GitHub and run `npm install` in the project's root directory to
+the [GitHub repository](https://github.com/averyhiebert/cellerity) 
+and run `npm install` in the project's root directory to
 install the dev dependencies.
 
 ## Documentation
-Auto-generated documentation for the public API can be found in 
-the `docs` directory.
+Auto-generated documentation for the public API can be found online
+[here](https://averyhiebert.github.io/cellerity/).
 
-If you have cloned the repository and installed the dev dependencies, 
-you can build the documentation by running `npm run documentation`.
-
-To demonstrate usage, an example using the LifelikeAutomaton class to 
+In addition, a usage example using the LifelikeAutomaton class to 
 run Conway's Game of Life in the console is provided.  
 You can also pass a rule in the "B/S" format
 (e.g. "B3/S23" for Life) as the first argument to view an automaton other than
 Life.  The script is located at `examples/runlife.js`. 
+
+If you have cloned the repository and installed the dev dependencies, 
+you can build the documentation by running `npm run documentation`.
 
 ## Browser Support
 If you have cloned the repository and installed the dev dependencies,
